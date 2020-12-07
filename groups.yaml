@@ -1,0 +1,69 @@
+####################################################
+#                                                  #
+#                    GROUP                         #
+#                                                  #
+####################################################
+
+#https://www.home-assistant.io/components/group/
+default_lights:
+  - group.window_lights
+  - group.bedroom_cozy
+  
+bedroom_lights:
+   - group.bedroom_cozy
+   - group.bedroom_balls
+   - light.disco_time
+   - light.old_greg
+   
+all_lights:
+   - light.hallway
+   - light.floalt
+   - light.kitchen_table
+   - group.bedroom_lights
+   - group.bedroom_lights
+   - group.kitchen_spotlight
+   - group.window_lights
+   - group.couch_time
+   - group.lounge_spotlight
+  
+kitchen_spotlight:
+  - light.kitchen_left
+  - light.kitchen_mid
+  - light.kitchen_right
+  
+lounge_spotlight:
+  - light.spotlight_0
+  - light.spotlight_1
+  - light.spotlight_2
+
+bedroom_cozy:
+  - light.bookcase
+  - light.bedside
+  - light.old_greg
+  - light.disco_time
+  
+bedroom_balls:
+  - light.ball_pink
+  - light.ball_green
+  - light.ball_yellow
+  
+window_lights:
+  - switch.kitchen_window
+  - switch.lounge_window
+  
+home_presence:
+  - person.carolin
+  - person.will
+  
+couch_time:
+  - switch.tv_lights
+  - switch.vase_light
+  
+tv:
+  - switch.chester
+  - switch.stereo
+  
+windows:
+  - binary_sensor.kitchen_window
+  - binary_sensor.lounge_window
+  - binary_sensor.bedroom_window

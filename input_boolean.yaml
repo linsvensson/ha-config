@@ -1,0 +1,16 @@
+#https://www.home-assistant.io/components/input_boolean/
+
+####################################################
+#                                                  #
+#                  INPUT_BOOLEAN                   #
+#                                                  #
+####################################################
+    
+  party_status:
+    initial: off
+    
+  motion_kitchen:
+    initial: on
+  
+  motion_hallway:
+    initial: on

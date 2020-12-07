@@ -1,0 +1,38 @@
+#binary_sensor.front_door:
+#  friendly_name: front door
+#  icon: mdi:door
+  
+# WINDOWS
+#binary_sensor.bedroom_window:
+#  friendly_name: bedroom window
+#  icon: mdi:window
+#binary_sensor.lounge_window:
+#  friendly_name: lounge window
+#  icon: mdi:window
+#binary_sensor.kitchen_window:
+#  friendly_name: kitchen window
+#  icon: mdi:window
+
+# SWITCHES
+switch.stereo:
+  friendly_name: stereo
+  icon: mdi:speaker
+switch.tv_lights:
+  friendly_name: tv lights
+  icon: mdi:lightbulb
+switch.kitchen_window:
+  friendly_name: kitchen window lights
+  icon: mdi:lightbulb
+switch.lounge_window:
+  friendly_name: lounge window lights
+  icon: mdi:lightbulb
+  
+person.carolin:
+  friendly_name: carolin
+  entity_picture: /local/lin.png
+person.will:
+  friendly_name: will
+  entity_picture: /local/will.png
+#plant.kitty_plant:
+#  entity_picture: /local/spider_plant.jpg
+

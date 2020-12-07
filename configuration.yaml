@@ -1,0 +1,282 @@
+####################################################
+#                                                  #
+#                 HOME ASSISTANT                   #
+#                                                  #
+####################################################
+
+#https://home-assistant.io/docs/configuration/basic/
+homeassistant:
+  name: Home
+  external_url: https://mingleberries.duckdns.org
+  internal_url: http://192.168.1.141:8123
+  latitude: !secret zone_home_latitude
+  longitude: !secret zone_home_longitude
+  elevation: !secret zone_home_elevation
+  unit_system: metric
+  time_zone: Europe/Stockholm
+  customize: !include customize.yaml
+  allowlist_external_dirs:
+    - /config/
+
+####################################################
+#                                                  #
+#                     GENERAL                      #
+#                                                  #
+####################################################
+
+config:
+
+person:
+
+mobile_app:
+
+breaking_changes:
+
+#https://www.home-assistant.io/integrations/spotify/
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+#spotcast:
+#  sp_dc: !secret sp_dc
+#  sp_key: !secret sp_key
+
+#browser_mod:
+#  devices:
+#    3f1c26fd-e6ecd635:
+#      name: engelbrekt
+#    0cb471c4-2ccdfc79:
+#      name: paddington
+
+#https://github.com/jcwillox/hass-auto-backup
+#auto_backup:
+#  auto_purge: true
+
+#https://www.home-assistant.io/components/updater/
+updater:
+
+http:
+  #ip_ban_enabled: true
+  #login_attempts_threshold: 6
+  ssl_certificate: ssl/fullchain.pem
+  ssl_key: ssl/privkey.pem
+  cors_allowed_origins:
+    - https://google.com
+    - https://www.home-assistant.io
+ 
+duckdns:
+  domain: mingleberries
+  access_token: !secret duckdns_access_token
+
+#https://www.home-assistant.io/lovelace/yaml-mode/
+lovelace:
+  mode: yaml
+  resources: !include lovelace/resources/resources.yaml
+  
+#https://www.home-assistant.io/components/shopping_list/
+shopping_list:
+
+#https://home-assistant.io/components/logger/
+logger:
+  default: warning
+  logs:
+    homeassistant.core: error
+    homeassistant.components.websocket_api: error
+    homeassistant.components.http: warning
+    homeassistant.components.http.ban: warning
+    homeassistant.components.shell_command: fatal
+#    homeassistant.components.zwave: debug
+#    homeassistant.components.influxdb: debug
+#    custom_components.monitor_docker: debug
+#    miflora: debug
+#    homeassistant.components.sensor.miflora: debug
+#    miflora.miflora_poller: debug
+#    pydeconz: debug
+#    homeassistant.components.deconz: debug
+#    custom_components.greenely: debug
+  
+monitor_docker:
+  - name: Docker
+    containers:
+      - home-assistant
+      - node-red
+      - deconz
+      - docker-influxdb-grafana
+      - mqtt
+    rename:
+      home-assistant: "Home Assistant"
+      deconz: DeCONZ
+      node-red: "Node-RED"
+    monitored_conditions:
+      - version
+      - containers_running
+      - containers_total
+      - status
+      - memory
+
+#https://www.home-assistant.io/components/system_health/
+system_health:
+
+#https://www.home-assistant.io/components/weather.darksky/
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+
+#https://home-assistant.io/components/sun/
+sun:
+
+#https://www.home-assistant.io/integrations/recorder/
+recorder:
+  purge_keep_days: 5
+
+#https://home-assistant.io/components/history/
+history:
+
+#https://www.home-assistant.io/components/calendar.google/
+google:
+  client_id: !secret carolin_email_id
+  client_secret: !secret carolin_email_secret
+
+#https://www.home-assistant.io/components/python_script/
+python_script:
+
+#https://www.home-assistant.io/components/tts/
+tts:
+  - platform: google_translate
+    service_name: google_say
+    language: 'en'
+    #base_url: https://mingleberries.duckdns.org
+
+#https://www.home-assistant.io/components/google_assistant/
+google_assistant:
+  project_id: home-assistant-3a3c9
+  report_state: true
+  service_account:
+    private_key: !secret service_account_private_key
+    client_email: !secret service_account_client_email
+  exposed_domains:
+    - switch
+    - light
+    - group
+  entity_config:
+    group.all_automations:
+      expose: false
+    group.default_lights:
+      expose: false
+    group.bedroom_cozy:
+      expose: false
+    group.home_presence:
+      expose: false
+    group.tv:
+      expose: false
+    group.windows:
+      expose: false
+    switch.coffee:
+      name: coffee
+      room: kitchen
+    switch.ac:
+      name: air conditioner
+      room: lounge
+    switch.dryer:
+      name: dryer
+      room: bathroom
+    switch.washer:
+      name: washing machine
+      room: bathroom
+      
+#https://www.home-assistant.io/components/samsungtv/
+#samsungtv:
+#  host: 192.168.1.136
+  
+#https://github.com/roberodin/ha-samsungtv-custom
+#media_player:
+#  - platform: samsungtv_custom
+#    host: 192.168.1.136
+#    mac: D0:03:DF:FA:A4:DE
+#    port: 8002
+#    protocol: ctl_qled
+#    applist: "YouTube, Viaplay, Plex, Netflix, Spotify"
+#    name: Chester
+  
+influxdb:
+  host: 127.0.0.1
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+
+binary_sensor:
+  - platform: aarlo
+    monitored_conditions:
+    - motion
+    - sound
+    - ding
+    
+fan:
+  - platform: xiaomi_miio
+    host: 192.168.1.146
+    token: !secret miio_token
+    model: zhimi.airpurifier.mc1
+    name: Torkel
+    
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    require_admin: true
+    url: http://192.168.1.141:3218
+ 
+#https://www.home-assistant.io/integrations/asuswrt/
+#asuswrt:
+#  host: 192.168.1.1
+#  username: admin
+#  password: !secret egon_password
+#  protocol: ssh
+#  port: 22
+#  sensors:
+#    - upload
+#    - download
+#    - upload_speed
+#    - download_speed
+  
+####################################################
+#                                                  #
+#                      ARLO                        #
+#                                                  #
+####################################################
+
+#https://www.home-assistant.io/components/arlo
+aarlo:
+  username: !secret arlo_username
+  password: !secret arlo_password
+  refresh_devices_every: 2
+  stream_timeout: 120
+
+alarm_control_panel:
+  - platform: aarlo
+    home_mode_name: home
+    away_mode_name: armed
+
+####################################################
+#                                                  #
+#      LINKS TO INDIVIDUAL CONFIGURATION FILES     #
+#                                                  #
+####################################################
+
+#https://home-assistant.io/docs/configuration/splitting_configuration/
+input_datetime: !include input_datetime.yaml
+input_text: !include input_text.yaml
+input_boolean: !include input_boolean.yaml
+input_select: !include input_select.yaml
+automation: !include automations.yaml
+zone: !include zones.yaml
+notify: !include notification.yaml
+group: !include groups.yaml
+sensor: !include_dir_merge_list sensors/
+script: !include scripts.yaml
+device_tracker: !include device_tracker.yaml
+switch: !include switches.yaml
+frontend:
+  themes: !include_dir_merge_named themes

@@ -1,0 +1,10 @@
+#https://www.home-assistant.io/components/input_text/
+
+####################################################
+#                                                  #
+#                   INPUT_TEXT                     #
+#                                                  #
+####################################################
+
+  coffee_status:
+    initial: "off"

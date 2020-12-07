@@ -1,0 +1,275 @@
+#- alias: 'Front Door Open'
+#  initial_state: on
+#  trigger:
+#    platform: state
+#    to: 'on'
+#    entity_id: binary_sensor.front_door_2
+#    for:
+#      minutes: 2
+#  action:
+#    - service: notify.pushbullet
+#      data_template:
+#        message: >
+#          The front door has been opened for 2 minutes..
+#    - service: notify.mingleberries
+#      data_template:
+#        message: >
+#          Some nip left the front door open for 2 minutes!    
+
+#- alias: 'Leaving Home'
+#  trigger:
+#    platform: state
+#    entity_id: group.home_presence
+#    from: 'home'
+#    to: 'not_home'
+#  action:
+#    - service: switch.turn_off
+#      entity_id: group.all_switches
+#    - service: light.turn_off
+#      entity_id: group.all_lights
+ 
+#- id: sunset         
+#  alias: 'Sunset'
+#  trigger:
+#    platform: sun
+#    event: sunset
+#    offset: '-00:30:00'
+#  action:
+#    service: homeassistant.turn_on
+#    entity_id: group.default_lights
+
+#- alias: 'Water mister tomato'
+#  trigger:
+#    - entity_id: sensor.mister_tomato_moisture
+#      platform: numeric_state
+#      below: '25'
+#  action:
+#    - service: notify.mingleberries
+#      data_template:
+#        message: >
+#          Mister Tomato needs water!
+
+####################################################
+#                    CHESTER                       #
+####################################################
+#- alias: 'Chester on'
+#  trigger:
+#    platform: state
+#    entity_id: switch.chester
+#    from: 'off'
+#    to: 'on'
+#  action:
+#    - service: switch.turn_on
+#      entity_id: switch.stereo
+#        
+#- alias: 'Chester off'
+#  trigger:
+#    platform: state
+#    entity_id: switch.chester
+#    from: 'on'
+#    to: 'off'
+#    for: '00:00:05'
+#  action:
+#    - service: switch.turn_off
+#      entity_id: switch.stereo
+
+####################################################
+#                    MOTION                        #
+####################################################
+
+#- id: hallway-motion-light
+#  alias: 'Hallway motion light'
+#  trigger:
+#    - platform: state
+#      entity_id: binary_sensor.hallway_motion_2
+#      to: 'on'
+#  condition:
+#    - condition: state
+#      entity_id: sun.sun
+#      state: 'below_horizon'
+#  action:
+#    - service: homeassistant.turn_on
+#      entity_id: script.timed_hallway
+# 
+#- id: hallway-motion-light-off
+#  alias: Turn off hallway light
+#  trigger:
+#    - platform: state
+#      entity_id: binary_sensor.hallway_motion_2
+#      to: 'off'
+#  action:
+#    - service: homeassistant.turn_on
+#      entity_id: script.hallway_off
+
+####################################################
+#                    BATTERY                       #
+####################################################
+
+#- id: gert-battery-low
+#  alias: 'Gert Battery Low'
+#  trigger:
+#    platform: template
+#    value_template: "{{states.sensor.phone_battery.state | int<20}}"
+#  condition:
+#    condition: template
+#    value_template: "{{ states.sensor.phone_battery.state != 'None' }}"
+#  action:
+#    service: notify.mingleberries
+#    data:
+#      message: <@276410034517180416> Charge your phone!
+#
+#- id: bert-battery-low
+#  alias: 'Bert Battery Low'
+#  trigger:
+#    platform: template
+#    value_template: "{{states.sensor.will_battery.state | int<20}}"
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: template
+#        value_template: "{{ states.sensor.will_battery.state != 'None' }}"
+#      - condition: template
+#        value_template: "{{states.sensor.will_battery.state | int<20 }}"
+#  action:
+#    service: notify.mingleberries
+#    data:
+#      message: <@135806724081844224> Charge your phone!
+
+####################################################
+#                 HOME ASSISTANT                   #
+####################################################
+
+#- id: notify-hass-start
+#  alias: Notify Home Assistant Start
+#  initial_state: 'on'
+#  trigger:
+#    platform: homeassistant
+#    event: start
+#  action:
+#    service: notify.mingleberries_status
+#    data:
+#      message: "Home Assistant Start at {{ states('sensor.date_time') }}"
+#
+#- id: notify-hass-stop
+#  alias: Notify Home Assistant Stop
+#  initial_state: 'on'
+#  trigger:
+#    platform: event
+#    event_type: homeassistant_stop
+#  action:
+#    service: notify.mingleberries_status
+#    data:
+#      message: "Home Assistant Stop at {{ states('sensor.date_time') }}"
+      
+#- id: notify-hass-update
+#  alias: Notify Home Assistant Update
+#  trigger:
+#    - platform: state
+#      entity_id: updater.updater
+#  action:
+#    service: notify.mingleberries
+#    data_template: 
+#      message: "Home Assistant {{ states.updater.updater.state }} is now available."
+
+####################################################
+#                   SWITCHES                       #
+####################################################
+
+#- id: toggle-bedroom-balls
+#  alias: 'Toggle Bedroom Balls'
+#  trigger:
+#    platform: event
+#    event_type: deconz_event
+#    event_data:
+#        id: bedroom_balls
+#        event: 1002
+#  action:
+#    service: light.toggle
+#    entity_id: light.bedroom_balls
+#    
+#- id: toggle-floalt
+#  alias: 'Toggle Floalt'
+#  trigger:
+#    platform: event
+#    event_type: deconz_event
+#    event_data:
+#        id: bedroom_balls
+#        event: 1004
+#  action:
+#    service: light.toggle
+#    entity_id: light.floalt
+#    
+#- id: toggle-kitchen-spotlight
+#  alias: 'Toggle Kitchen Spotlight'
+#  trigger:
+#    platform: event
+#    event_type: deconz_event
+#    event_data:
+#        id: lumi_remote_b1acn01
+#        event: 1002
+#  action:
+#    service: light.toggle
+#    entity_id: group.kitchen_spotlight
+#    
+#- id: toggle-hallway-light
+#  alias: 'Toggle Hallway Light'
+#  trigger:
+#    platform: event
+#    event_type: deconz_event
+#    event_data:
+#        id: lumi_remote_b1acn01
+#        event: 1004
+#  action:
+#    service: light.toggle
+#    entity_id: light.hallway
+
+####################################################
+#                   BIRTHDAYS                      #
+####################################################
+
+#- alias: Reminder - Refresh date countdown sensors
+#  initial_state: on
+#  trigger:
+#    - platform: time
+#      at: '00:00:01'
+#    - platform: homeassistant
+#      event: start
+#  action:
+#    - service: python_script.date_countdown
+#      data:
+#        name: Will
+#        type: birthday
+#        date: 08/06/1989
+#    - service: python_script.date_countdown
+#      data:
+#        name: Carolin
+#        type: birthday
+#        date: 15/09/1988
+#    - service: python_script.date_countdown
+#      data:
+#        name: Mum
+#        type: birthday
+#        date: 01/10/1958
+#    - service: python_script.date_countdown
+#      data:
+#        name: Tommy
+#        type: birthday
+#        date: 27/04/1961
+#
+#- alias: 'Mum Birthday Reminder'
+#  trigger:
+#    platform: template
+#    value_template: "{{states.sensor.birthday_mum.state | int == 14}}"
+#  action:
+#    service: notify.mingleberries
+#    data:
+#      message: It's mum's birthday in 14 days!
+#      
+#- alias: 'Tommy Birthday Reminder'
+#  trigger:
+#    platform: template
+#    value_template: "{{states.sensor.birthday_tommy.state | int == 14}}"
+#  action:
+#    service: notify.mingleberries
+#    data:
+#      message: It's Tommy's birthday in 14 days!
