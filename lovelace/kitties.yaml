@@ -1,0 +1,97 @@
+####################################################
+#                                                  #
+#                    KITTIES                       #
+#                                                  #
+####################################################
+
+title: Kitties
+icon: mdi:cat
+path: kitties
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: picture
+        image: /local/minki.png
+      - type: picture
+        image: /local/dodo.png
+  - type: vertical-stack
+    title: Kitty boxes
+    style:
+      font_size: 24px
+      border: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                icon: mdi:alpha-b-box
+                name: bathroom
+                color_type: card 
+                color: rgb(222,184,135)
+                size: 30%
+                styles:
+                  card:
+                    - height: 100px
+                  name:
+                    - font-weight: bold
+                    - font-size: 14px
+                  label: 
+                    - font-familly: cursive
+                    - font-size: 10px
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_bathroom_last_cleaned
+              - type: "custom:button-card"
+                icon: mdi:emoticon-poop
+                name: left
+                color_type: card
+                color: rgb(222,184,135)
+                size: 30%
+                styles:
+                  card:
+                    - height: 100px
+                  name:
+                    - font-weight: bold
+                    - font-size: 14px
+                  label: 
+                    - font-familly: cursive
+                    - font-size: 10px
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_left_last_cleaned
+              - type: "custom:button-card"
+                icon: mdi:emoticon-poop
+                name: right
+                color_type: card
+                color: rgb(222,184,135)
+                size: 30%
+                styles:
+                  card:
+                    - height: 100px
+                  name:
+                    - font-weight: bold
+                    - font-size: 14px
+                  label: 
+                    - font-familly: cursive
+                    - font-size: 10px
+                tap_action:
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_right_last_cleaned
+          - type: horizontal-stack
+            cards:
+              - type: "custom:bignumber-card"
+                entity: sensor.since_litterbox_bathroom_last_cleaned
+                scale: 10px
+              - type: "custom:bignumber-card"
+                entity: sensor.since_litterbox_left_last_cleaned
+                scale: 10px
+              - type: "custom:bignumber-card"
+                entity: sensor.since_litterbox_right_last_cleaned
+                scale: 10px

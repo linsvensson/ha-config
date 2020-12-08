@@ -1,0 +1,72 @@
+title: Greenely Dash
+path: greenelydash
+visible: 
+  - user: 6c0e940acaba49b89d3d0f3fadef574f
+icon: mdi:leaf
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+          - type: custom:button-card
+            layout: icon_name_state2nd
+            show_state: false
+            show_label: false
+            show_name: false
+            icon: mdi:chevron-left
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/dashboard?kiosk
+            name: Go back
+            styles:
+              name:
+                - color: var(--accent-color)
+              icon:
+                - color: var(--accent-color)
+            style: |
+              ha-card {
+                margin-top: 20px; !important;
+                font-family: 'Open Sans', sans-serif;
+              }
+          - type: 'custom:text-divider-row'
+            text: Prices
+            style: |
+              ha-card {
+                height: 20px !important;
+                font-family: 'Open Sans', sans-serif !important;
+              }
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: 'custom:flex-table-card'
+                    title: Today
+                    sort_by: date
+                    entities:
+                      include: sensor.greenely_prices
+                    columns:
+                      - name: time
+                        attr_as_list: current_day
+                        modify: x.time
+                        icon: mdi:clock
+                      - name: price(öre/kWh)
+                        attr_as_list: current_day
+                        modify: Math.round(x.price * 10) / 10
+                        icon: mdi:cash
+                  - type: 'custom:flex-table-card'
+                    title: Tomorrow
+                    sort_by: date
+                    entities:
+                      include: sensor.greenely_prices
+                    columns:
+                      - name: time
+                        attr_as_list: next_day
+                        modify: x.time
+                        icon: mdi:clock
+                      - name: price(öre/kWh)
+                        attr_as_list: next_day
+                        modify: Math.round(x.price * 10) / 10
+                        icon: mdi:cash
+         

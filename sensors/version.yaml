@@ -1,0 +1,17 @@
+#https://home-assistant.io/components/sensor/
+
+####################################################
+#                                                  #
+#                   VERSION                        #
+#                                                  #
+####################################################
+
+#https://www.home-assistant.io/components/sensor.version/
+  - platform: version
+    name: Installed Version
+    
+  - platform: version
+    name: Latest Available Version
+    beta: false
+    image: default
+    source: docker

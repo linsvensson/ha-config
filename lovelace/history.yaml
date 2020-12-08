@@ -1,0 +1,60 @@
+
+####################################################
+#                                                  #
+#                    HISTORY                       #
+#                                                  #
+####################################################
+
+title: History
+path: history
+icon: mdi:history
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+          - type: history-graph
+            hours_to_show: 5
+            entities:
+              - entity: sensor.power_25
+                name: coffee POWAH
+          - type: history-graph
+            hours_to_show: 1
+            entities:
+              - entity: sensor.sp_120_2
+                name: sebastian POWAH
+          - type: history-graph
+            hours_to_show: 12
+            entities:
+              - entity: sensor.phone_battery
+                name: Gert
+          #- type: custom:mini-graph-card
+          #  entities:
+          #    - sensor.power_25
+          #  name: coffee
+          #  icon: mdi:flash-circle
+          #  font_size: 60
+          #  hour24: true
+          #  hours_to_show: 2
+          #  points_per_hour: 60
+          #  unit: watt
+          #  show:
+          #    graph: bar
+          #    points: true
+          #    labels: true
+          #- type: custom:mini-graph-card
+          #  entities:
+          #    - sensor.sp_120_2
+          #  name: sebastian bosch
+          #  icon: mdi:flash-circle
+          #  font_size: 60
+          #  hour24: true
+          #  hours_to_show: 48
+          #  points_per_hour: 60
+          #  unit: watt
+          #  show:
+          #    graph: bar
+          #    points: true
+          #    labels: true

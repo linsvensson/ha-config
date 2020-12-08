@@ -1,0 +1,354 @@
+
+####################################################
+#                                                  #
+#                      MISC                        #
+#                                                  #
+####################################################
+
+title: Misc
+path: misc
+icon: mdi:chart-bubble
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+          - type: 'custom:text-divider-row'
+            text: Media
+          - type: vertical-stack
+            cards:
+              - type: "custom:button-card"
+                entity: binary_sensor.minecraft_server_status
+                icon: mdi:minecraft
+                color_type: icon
+                layout: icon_name_state2nd
+                show_state: false
+                show_label: true
+                show_name: true
+                name: >
+                  [[[
+                    return states['sensor.minecraft_server_players_online'].state + ' players online';
+                  ]]]
+                label: >
+                  [[[
+                    return `<ha-icon
+                      icon="mdi:signal"
+                      style="width: 16px; height: 16px; color: var(--paper-item-icon-active-color);">
+                      </ha-icon><span> <span style="color: var(--text-color-sensor);">${states['sensor.minecraft_server_latency_time'].state}</span></span>`
+                  ]]]
+                tap_action:
+                  entity: sensor.minecraft_server_players_online
+                  action: more-info
+                styles:
+                  card:
+                    - height: 100px
+              #- type: horizontal-stack
+              #  cards:
+              #    - type: custom:button-card
+              #      icon: 'mdi:party-popper'
+              #      color: var(--accent-color)
+              #      name: Party!
+              #      tap_action:
+              #        action: call-service
+              #        service: spotcast.start
+              #        service_data:
+              #          device_name: much cast. many chrome
+              #          entity_id: media_player.much_cast_many_chrome
+              #          uri: 'spotify:playlist:37i9dQZF1DX4UtSsGT1Sbe'
+              #          shuffle: true
+              #          random_song: true
+              #          repeat: playlist
+              #      style: |
+              #        ha-card {
+              #          font-family: 'SF Display', sans-serif !important;
+              #        }
+              #    - type: custom:button-card
+              #      icon: 'mdi:star-face'
+              #      name: PEW PEW
+              #      color: var(--accent-color)
+              #      tap_action:
+              #        action: call-service
+              #        service: spotcast.start
+              #        service_data:
+              #          device_name: much cast. many chrome
+              #          entity_id: media_player.much_cast_many_chrome
+              #          uri: 'spotify:playlist/7L1hhjpgZhafWluXmFsZpz'
+              #          random_song: true
+              #          shuffle: true
+              #          repeat: playlist
+              #      style: |
+              #        ha-card {
+              #          font-family: 'SF Display', sans-serif !important;
+              #        }
+              - entity: media_player.much_cast_many_chrome
+                type: custom:mini-media-player
+                artwork: cover
+                source: icon
+                hide:
+                  power: true
+                  power_state: true
+          - type: 'custom:purifier-card'
+            entity: fan.torkel
+            stats:
+              - attribute: filter_life_remaining
+                unit: '%'
+                subtitle: Filter Remaining
+              - attribute: motor_speed
+                unit: RPS
+                subtitle: Motor Speed
+            actions:
+              - name: Silent
+                icon: 'mdi:weather-night'
+                speed: Silent
+              - name: 25%
+                icon: 'mdi:circle-slice-2'
+                speed: Favorite
+                xiaomi_miio_favorite_level: 3
+              - name: 50%
+                icon: 'mdi:circle-slice-4'
+                speed: Favorite
+                xiaomi_miio_favorite_level: 7
+              - name: 75%
+                icon: 'mdi:circle-slice-6'
+                speed: Favorite
+                xiaomi_miio_favorite_level: 10
+              - name: 100%
+                icon: 'mdi:circle-slice-8'
+                speed: Favorite
+                xiaomi_miio_favorite_level: 14
+              - name: Auto
+                icon: 'mdi:brightness-auto'
+                speed: Auto
+            show_name: true
+            show_state: true
+            show_toolbar: true
+            compact_view: true
+          - type: 'custom:text-divider-row'
+            text: Kitties
+          - type: horizontal-stack
+            cards:
+             - type: picture
+               image: /local/minki.png
+             - type: picture
+               image: /local/dodo.png
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                entity: sensor.fountain_days
+                name: cleaned
+                icon: mdi:fountain
+                show_state: true
+                tap_action:
+                  confirmation:
+                    text: '[[[ return `Are you sure you have cleaned the kitty fountain?` ]]]'
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_fountain_last_cleaned
+                styles:  
+                  grid:
+                    - grid-template-areas: '"s s" "i i" "n n"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content
+                  name:
+                    - justify-self: middle
+                    - align-self: middle
+                    - text-transform: lowercase
+                  state:
+                    - align-self: middle
+                    - justify-self: middle
+                    - font-weight: bold
+                    - font-size: 36px
+                    - color: >
+                       [[[
+                         if (entity.state < 2) return '#C5C5D2';
+                         else if (entity.state >= 2 && entity.state < 4) return 'rgb(152,251,152)';
+                         else if (entity.state >= 4 && entity.state < 7) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                       ]]]
+                  icon:
+                    - justify-content: start
+                    - align-items: start
+                    - color: >
+                       [[[
+                        if (entity.state < 2) return '#C5C5D2';
+                        else if (entity.state >= 2 && entity.state < 4) return 'rgb(152,251,152)';
+                        else if (entity.state >= 4 && entity.state < 7) return '#FFA500';
+                        else return 'rgb(255,69,0)';
+                       ]]]
+              - type: custom:button-card
+                entity: sensor.fountain_filter_days
+                name: filter
+                icon: mdi:fountain
+                show_state: true
+                tap_action:
+                  confirmation:
+                    text: '[[[ return `Are you sure you have changed the kitty fountain filter?` ]]]'
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_fountain_filter_last_changed
+                styles:  
+                  grid:
+                    - grid-template-areas: '"s s" "i i" "n n"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content
+                  name:
+                    - justify-self: middle
+                    - align-self: middle
+                    - text-transform: lowercase
+                  state:
+                    - align-self: middle
+                    - justify-self: middle
+                    - font-weight: bold
+                    - font-size: 36px
+                    - color: >
+                       [[[
+                         if (entity.state < 14) return '#C5C5D2';
+                         else if (entity.state >= 14 && entity.state < 28) return 'rgb(152,251,152)';
+                         else if (entity.state >= 28 && entity.state < 50) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                       ]]]
+                  icon:
+                    - justify-content: start
+                    - align-items: start
+                    - color: >
+                       [[[
+                        if (entity.state < 14) return '#C5C5D2';
+                        else if (entity.state >= 14 && entity.state < 28) return 'rgb(152,251,152)';
+                        else if (entity.state >= 28 && entity.state < 50) return '#FFA500';
+                        else return 'rgb(255,69,0)';
+                       ]]]
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                entity: sensor.bathroom_litterbox_days
+                name: bath
+                icon: mdi:emoticon-poop
+                show_state: true
+                tap_action:
+                  confirmation:
+                    text: '[[[ return `Are you sure you have cleaned the bathroom box?` ]]]'
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_bathroom_last_cleaned
+                styles:  
+                  grid:
+                    - grid-template-areas: '"i i" "n n" "s s"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content
+                  name:
+                    - justify-self: middle
+                    - align-self: middle
+                    - text-transform: lowercase
+                  state:
+                    - align-self: middle
+                    - justify-self: middle
+                    - font-weight: bold
+                    - font-size: 14px
+                    - color: >
+                       [[[
+                         if (entity.state < 7) return '#C5C5D2';
+                         else if (entity.state >= 7 && entity.state < 14) return 'rgb(152,251,152)';
+                         else if (entity.state >= 14 && entity.state < 28) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                       ]]]
+                  icon:
+                    - justify-content: start
+                    - align-items: start
+                    - color: >
+                       [[[
+                        if (entity.state < 7) return '#C5C5D2';
+                        else if (entity.state >= 7 && entity.state < 14) return 'rgb(152,251,152)';
+                        else if (entity.state >= 14 && entity.state < 28) return '#FFA500';
+                        else return 'rgb(255,69,0)';
+                       ]]]
+              - type: custom:button-card
+                entity: sensor.left_litterbox_days
+                name: left
+                icon: mdi:emoticon-poop
+                show_state: true
+                tap_action:
+                  confirmation:
+                    text: '[[[ return `Are you sure you have cleaned the left box?` ]]]'
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_left_last_cleaned
+                styles:
+                  grid:
+                    - grid-template-areas: '"i i" "n n" "s s"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content
+                  name:
+                    - justify-self: middle
+                    - align-self: middle
+                    - text-transform: lowercase
+                  state:
+                    - align-self: middle
+                    - justify-self: middle
+                    - font-weight: bold
+                    - font-size: 14px
+                    - color: >
+                       [[[
+                         if (entity.state < 4) return '#C5C5D2';
+                          else if (entity.state >= 4 && entity.state < 7) return 'rgb(152,251,152)';
+                          else if (entity.state >= 7 && entity.state < 14) return '#FFA500';
+                          else return 'rgb(255,69,0)';
+                        ]]]
+                  icon:
+                    - justify-content: start
+                    - align-items: start
+                    - color: >
+                       [[[
+                         if (entity.state < 4) return '#C5C5D2';
+                         else if (entity.state >= 4 && entity.state < 7) return 'rgb(152,251,152)';
+                         else if (entity.state >= 7 && entity.state < 14) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                       ]]]
+              - type: custom:button-card
+                entity: sensor.right_litterbox_days
+                name: right
+                icon: mdi:emoticon-poop
+                show_state: true
+                tap_action:
+                  confirmation:
+                    text: '[[[ return `Are you sure you have cleaned the right box?` ]]]'
+                  action: call-service
+                  service: script.turn_on
+                  service_data:
+                    entity_id: script.store_litterbox_right_last_cleaned
+                styles:
+                  grid:
+                    - grid-template-areas: '"i i" "n n" "s s"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content
+                  name:
+                    - justify-self: middle
+                    - align-self: middle
+                    - text-transform: lowercase
+                  state:
+                    - align-self: middle
+                    - justify-self: middle
+                    - font-weight: bold
+                    - font-size: 14px
+                    - color: >
+                       [[[
+                         if (entity.state < 4) return '#C5C5D2';
+                         else if (entity.state >= 4 && entity.state < 7) return 'rgb(152,251,152)';
+                         else if (entity.state >= 7 && entity.state < 14) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                         ]]]
+                  icon:
+                    - justify-content: start
+                    - align-items: start
+                    - color: >
+                       [[[
+                         if (entity.state < 4) return '#C5C5D2';
+                         else if (entity.state >= 4 && entity.state < 7) return 'rgb(152,251,152)';
+                         else if (entity.state >= 7 && entity.state < 14) return '#FFA500';
+                         else return 'rgb(255,69,0)';
+                       ]]]

@@ -1,0 +1,24 @@
+####################################################
+#                                                  #
+#                    BATTERIES                     #
+#                                                  #
+####################################################
+title: Batteries
+icon: mdi:battery-heart-variant
+path: batteries
+panel: true
+cards:
+  - type: custom:battery-state-card
+    title: "Battery levels"
+    entities:
+      - sensor.bedroom_balls_battery_level
+      - sensor.bedroom_temp_battery_level
+      - sensor.bedroom_window_battery_level
+      - sensor.front_door_battery_level
+      - sensor.hallway_motion_battery_level
+      - sensor.kitchen_motion_battery_level
+      - sensor.kitchen_window_battery_level
+      - sensor.lounge_temp_battery_level
+      - sensor.lounge_window_0_battery_level
+      - sensor.lounge_window_1_battery_level
+      - sensor.lumi_remote_b1acn01_battery_level

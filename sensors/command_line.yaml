@@ -1,0 +1,17 @@
+#https://home-assistant.io/components/sensor/
+
+####################################################
+#                                                  #
+#                  COMMAND LINE                    #
+#                                                  #
+####################################################
+
+#https://www.home-assistant.io/components/sensor.command_line/
+#  - platform: command_line
+#    name: CPU Temperature
+#    command: "/usr/bin/sensors | awk '/^Core /{++r; gsub(/[^[:digit:]]+/, $3); s+=$3} END{print s/r}'"
+
+  - platform: command_line
+    name: badlogin
+    command: "grep -c 'Login attempt' /config/home-assistant.log"
+    value_template: '{{ value | int - 1 }}'

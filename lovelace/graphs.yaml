@@ -1,0 +1,107 @@
+####################################################
+#                                                  #
+#                    GRAPHS                        #
+#                                                  #
+####################################################
+title: Graphs
+icon: mdi:graph
+path: graphs
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            show_header_toggle: false
+            entities:
+             - entity: sensor.lounge_temp_2
+               icon: mdi:water-percent
+               name: humidity             
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.lounge_temp
+            animate: true
+            name: lounge temp
+            line_width: 2
+            font_size: 60
+            hour24: true
+            hours_to_show: 48
+            state_adaptive_color: true
+            show:
+              labels: true
+              fill: true
+              name_adaptive_color: true
+              icon_adaptive_color: true
+              extrema: true
+            color_thresholds:
+              - value: 0
+                color: "#CCE5FF"
+              - value: 10
+                color: "#66B2FF"
+              - value: 18
+                color: "#0080FF"
+              - value: 20
+                color: "#87c087"
+              - value: 21
+                color: "#389638"
+              - value: 24
+                color: "#FF9932"
+              - value: 25
+                color: "#FF8000"
+              - value: 26
+                color: "#ff0000"
+            style: |
+              ha-card {
+                margin-left: 5px;
+                margin-right: 5px;
+                font-family: 'Open Sans', sans-serif;
+              }
+      - type: custom:vertical-stack-in-card
+        cards:
+          - type: entities
+            show_header_toggle: false
+            entities:
+             - entity: sensor.bedroom_temp_2
+               icon: mdi:water-percent
+               name: humidity               
+          - type: custom:mini-graph-card
+            entities:
+              - sensor.bedroom_temp
+            animate: true
+            name: bedroom temp
+            line_width: 2
+            font_size: 60
+            hour24: true
+            hours_to_show: 48
+            state_adaptive_color: true
+            show:
+              labels: true
+              fill: true
+              name_adaptive_color: true
+              icon_adaptive_color: true
+              extrema: true
+            color_thresholds:
+              - value: 0
+                color: "#CCE5FF"
+              - value: 10
+                color: "#66B2FF"
+              - value: 18
+                color: "#0080FF"
+              - value: 20
+                color: "#87c087"
+              - value: 21
+                color: "#389638"
+              - value: 24
+                color: "#FF9932"
+              - value: 25
+                color: "#FF8000"
+              - value: 26
+                color: "#ff0000"
+            style: |
+              ha-card {
+                margin-bottom: 10px;
+                margin-left: 5px;
+                margin-right: 5px;
+                font-family: 'Open Sans', sans-serif;
+              }

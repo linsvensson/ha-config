@@ -1,0 +1,15 @@
+#https://home-assistant.io/components/sensor/
+
+####################################################
+#                                                  #
+#                  TIME & DATE                     #
+#                                                  #
+####################################################
+
+#https://www.home-assistant.io/components/sensor.time_date/
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time' 

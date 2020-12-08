@@ -1,0 +1,1194 @@
+####################################################
+#                                                  #
+#                   DASHBOARD                      #
+#                                                  #
+####################################################
+title: Dashboard
+icon: mdi:tablet-dashboard
+path: dashboard
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+    
+          ###########################################################
+          #                                                         #                                                                                 
+          #                        SIDEBAR                          #
+          #                                                         #                                                                                 
+          ###########################################################
+      - type: custom:nest-layout-card
+        layout: horizontal
+        max_width: [300px, 100%]
+        column_num: 2
+        max_columns: 2
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_picture_button
+                        variables:
+                          - entity: person.carolin
+                          - entity_picture: /local/lin.png
+                  - type: custom:decluttering-card
+                    template: nest_button
+                    variables:
+                      - entity: alarm_control_panel.aarlo_arlo
+                      - state:
+                          - value: 'armed_away'
+                            icon: mdi:shield-lock
+                            color: rgb(152,251,152)
+                          - value: 'armed_home'
+                            icon: mdi:shield-home
+                            color: rgb(251, 210, 41)
+                          - value: 'triggered'
+                            icon: mdi:shield-alert
+                            color: rgb(255, 0, 0)
+                          - value: 'disarmed'
+                            icon: mdi:shield-off
+                            color: rgb(169,169,169)
+                          - value: 'pending'
+                            icon: mdi:shield-half-full
+                            color: rgb(169,169,169)
+                  - type: vertical-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_picture_button
+                        variables:
+                          - entity: person.will
+                          - entity_picture: /local/will.png
+              - type: custom:hui-markdown-card
+                content: |
+                 <font size='7.41vw'>{{ states('sensor.time') }}</font>
+                 
+                 <font color='#ffffff' size='5'><b>{{ states('sensor.day_of_week') }}</b>
+                 <b>{{ states('sensor.date_long') }}</b> </font><br> 
+              
+                 <font size='5'>
+                 {% if now().hour < 5 %} <b>Good night {{'\U0001F634'}}</b>
+                   {% elif now().hour < 12 %} <b>Good morning</b> {{'\u2615\uFE0F'}}
+                   {% elif now().hour < 18 %} <b>Good day</b> {{'\U0001F44B\U0001F3FB'}}
+                   {% else %} <b>Good evening</b> {{'\U0001F44B\U0001F3FB'}}
+                 {% endif %}</font>
+
+                style: |
+                  ha-card {
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                    background-color: rgba(0, 0, 0, 0);
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
+                    font-family: 'SF Text', sans-serif;
+                  }
+              - type: custom:dark-sky-weather-card
+                entity_current_conditions: sensor.dark_sky_icon
+                entity_temperature: sensor.dark_sky_temperature
+                entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1d
+                entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2d
+                entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3d
+                entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4d
+                entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5d
+                entity_forecast_icon_1: sensor.dark_sky_icon_1d
+                entity_forecast_icon_2: sensor.dark_sky_icon_2d
+                entity_forecast_icon_3: sensor.dark_sky_icon_3d
+                entity_forecast_icon_4: sensor.dark_sky_icon_4d
+                entity_forecast_icon_5: sensor.dark_sky_icon_5d
+                entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature_0d
+                entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_1d
+                entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_2d
+                entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_3d
+                entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_4d
+                entity_apparent_temp: sensor.dark_sky_apparent_temperature
+                entity_pop_1: sensor.dark_sky_precip_probability_1d
+                entity_pop_2: sensor.dark_sky_precip_probability_2d
+                entity_pop_3: sensor.dark_sky_precip_probability_3d
+                entity_pop_4: sensor.dark_sky_precip_probability_4d
+                entity_pop_5: sensor.dark_sky_precip_probability_5d
+                style: |
+                  ha-card {
+                    margin-bottom: 120px !important;
+                    background-color: rgba(0, 0, 0, 0);
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    font-family: 'SF Display', sans-serif;
+                    box-shadow: none;
+                    font-size: 80%;
+                    text-align: center;
+                  }
+              - type: horizontal-stack
+                style:
+                  padding-top: 10
+                cards:
+                   
+                  ###########################################################
+                  #                                                         #                                                                                 
+                  #                      INFO BUTTON                        #
+                  #                                                         #                                                                                 
+                  ###########################################################
+                  - type: custom:button-card
+                    style: |
+                      ha-card {
+                        background-color: rgba(0, 0, 0, 0);
+                        -webkit-box-shadow: none;
+                        -moz-box-shadow: none;
+                        box-shadow: none;
+                        text-align: center;
+                      }
+                    icon: 'mdi:information-outline'
+                    tap_action:
+                      action: call-service
+                      service: browser_mod.popup
+                      service_data:
+                        title: Close
+                        large: true
+                        style:
+                          background: none
+                          border-radius: 0.8vw 0.8vw 0.8vw 0.8vw
+                          padding: 3vw 2.5vw 5vw 2.5vw
+                        deviceID:
+                          - this
+                        card:
+                          type: custom:layout-card
+                          column_num: 2
+                          layout: vertical
+                          cards:
+                            - type: custom:hui-vertical-stack-card
+                              cards:
+                                - type: entities
+                                  entities:
+                                    - type: custom:button-entity-row
+                                      entity: sensor.hass_version_installed
+                                      icon: 'mdi:home-assistant'
+                                      name: Installerad version
+                                  show_header_toggle: false
+                                  style: |
+                                    ha-card {
+                                      box-shadow: none;
+                                      border-radius: 1vw;
+                                      background: rgba(36, 42, 43, 0.88);
+                                      padding-right: 0.7em;
+                                    }
+                                  title: Home Assistant
+                            - break
+                            - type: custom:vertical-stack-card
+                              cards:
+                                - type: entities
+                                  entities:
+                                    - entity: switch.fullykiosk_screen
+                                      icon: 'mdi:tablet'
+                                      name: Skärm av/på
+                                  show_header_toggle: false
+                                  style: |
+                                    ha-card {
+                                      box-shadow: none;
+                                      border-radius: 1vw;
+                                      background: rgba(36, 42, 43, 0.88);
+                                      padding-right: 0.7em;
+                                    }
+                                  title: Väggplattan
+                              style: |
+                                ha-card {
+                                  --paper-card-background-color: rgba(36, 42, 43, 0.88);
+                                  box-shadow: none;
+                                  border-radius: 1vw;
+                                }
+                                
+                  ###########################################################
+                  #                                                         #                                                                                 
+                  #                       BUTTON                        #
+                  #                                                         #                                                                                 
+                  ###########################################################
+                  - type: custom:button-card
+                    style: |
+                      ha-card {
+                        background-color: rgba(0, 0, 0, 0);
+                        -webkit-box-shadow: none;
+                        -moz-box-shadow: none;
+                        box-shadow: none;
+                        text-align: center;
+                      }
+                    icon: 'mdi:leaf'
+                    
+                  ###########################################################
+                  #                                                         #                                                                                 
+                  #                      FEED BUTTON                        #
+                  #                                                         #                                                                                 
+                  ###########################################################
+                  - type: custom:button-card
+                    style: |
+                      ha-card {
+                        background-color: rgba(0, 0, 0, 0);
+                        -webkit-box-shadow: none;
+                        -moz-box-shadow: none;
+                        box-shadow: none;
+                        text-align: center;
+                      }
+                    icon: 'mdi:message-alert-outline'
+                    tap_action:
+                      action: call-service
+                      service: browser_mod.popup
+                      service_data:
+                        title: Close
+                        style: |
+                          ha-card {
+                            background-color: rgba(0, 0, 0, 0);
+                            -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                            box-shadow: none;
+                            text-align: center;
+                            font-family: 'SF Display', sans-serif;
+                          }
+                        style:
+                          border-radius: 0.8vw 0.8vw 0.8vw 0.8vw
+                        deviceID:
+                          - this
+                        card:
+                          type: 'custom:home-feed-card'
+                          title: Home Feed
+                          scrollbars_enabled: false
+                          show_empty: false
+                          entities:
+                            - entity: switch.chester
+                              icon: mdi:television
+                              name: tv
+                            - entity: input_select.coffee_status
+                              icon: mdi:coffee
+                              name: coffee
+                            - entity: input_select.washer_status
+                              name: washer
+                              icon: mdi:washing-machine
+                            - entity: input_select.dryer_status
+                              name: dryer
+                              icon: mdi:tumble-dryer
+                            - entity: alarm_control_panel.aarlo_arlo
+                              name: alarm
+                              secondary_info: last-changed
+                            - sensor.front_door
+                            - entity: sensor.kitchen_window
+                              name: kitchen
+                            - entity: sensor.lounge_window
+                              name: lounge
+                            - entity: sensor.bedroom_window
+                              name: bedroom
+                            - entity: input_select.dishwasher_status
+                              name: sebastian
+                              icon: mdi:dishwasher
+                          style: |
+                            ha-card {
+                              font-family: 'SF Display', sans-serif;
+                            }
+                          
+          - type: custom:layout-card
+            column_num: 3
+            layout: vertical
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.front_door
+                          - name: front door
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'closed'
+                                color: rgb(152,251,152)
+                              - value: 'open'
+                                color: rgb(255,69,0)
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.hallway_motion
+                          - name: hallway
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'no movement'
+                                color: rgb(152,251,152)
+                              - value: 'movement'
+                                color: rgb(255,69,0)
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.kitchen_motion_2
+                          - name: kitchen
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'no movement'
+                                color: rgb(152,251,152)
+                              - value: 'movement'
+                                color: rgb(255,69,0)
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.kitchen_window
+                          - name: kitchen
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'closed'
+                                color: rgb(152,251,152)
+                              - value: 'open'
+                                color: rgb(255,69,0)
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.lounge_window
+                          - name: lounge
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'closed'
+                                color: rgb(152,251,152)
+                              - value: 'open'
+                                color: rgb(255,69,0)
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.bedroom_window
+                          - name: bedroom
+                          - show_name: true
+                          - show_state: false
+                          - state:
+                              - value: 'closed'
+                                color: rgb(152,251,152)
+                              - value: 'open'
+                                color: rgb(255,69,0)
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: sensor.phone_battery
+                    name: gert
+                    show_label: false
+                    show_name: true
+                    tap_action:
+                      action: more-info
+                    state:
+                      - value: 70
+                        operator: '>='
+                        color: rgb(152,251,152)
+                      - value: 30
+                        operator: '>='
+                        color: rgb(255,166,0)
+                      - value: 30
+                        operator: '<'
+                        color: rgb(255,69,0)
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif;
+                      }
+                  - type: custom:button-card
+                    entity: sensor.will_battery
+                    name: bert
+                    show_label: false
+                    show_name: true
+                    tap_action:
+                      action: more-info
+                    state:
+                      - value: 70
+                        operator: '>='
+                        color: rgb(152,251,152)
+                      - value: 30
+                        operator: '>='
+                        color: rgb(255,166,0)
+                      - value: 30
+                        operator: '<'
+                        color: rgb(255,69,0)
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif;
+                      } 
+
+              - type: 'custom:text-divider-row'
+                text: Lights
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: 'light.hallway'
+                    icon: 'mdi:ceiling-light'
+                    name: hallway
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                  - type: custom:button-card
+                    entity: 'group.kitchen_spotlight'
+                    icon: 'mdi:track-light'
+                    name: kitchen
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: 'group.bedroom_balls'
+                    icon: 'mdi:lightbulb-group'
+                    name: bedroom
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                  - type: custom:button-card
+                    entity: 'switch.tv_lights'
+                    icon: 'mdi:wall-sconce-flat'
+                    name: tv
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: 'light.floalt'
+                    icon: 'mdi:white-balance-sunny'
+                    name: floalt
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                  - type: custom:button-card
+                    entity: 'group.window_lights'
+                    icon: 'mdi:circle-multiple'
+                    name: windows
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+              - break
+              - type: "custom:atomic-calendar"
+                showProgressBar: true
+                maxDaysToShow: 30
+                entities:
+                - entity: calendar.thepinkkiller_gmail_com
+                  color: pink
+                style: |
+                  ha-card {
+                    font-family: 'SF Display', sans-serif;
+                  }
+                  .cal-title {
+                    height: 20px;
+                    font-weight: bold;
+                    margin-top: -20px;
+                    margin-left: -8px;
+                    font-size: 16px !important;
+                    font-family: 'SF Display', sans-serif !important;
+                  }
+              - type: custom:button-card
+                entity: 'sensor.greenely_prices'
+                icon: 'mdi:leaf'
+                name: Greenely
+                show_name: false
+                tap_action:
+                  action: call-service
+                  service: browser_mod.popup
+                  service_data:
+                    title: Close
+                    style: |
+                      ha-card {
+                        background-color: rgba(0, 0, 0, 0);
+                        -webkit-box-shadow: none;
+                        -moz-box-shadow: none;
+                        box-shadow: none;
+                        text-align: center;
+                        font-family: 'SF Display', sans-serif;
+                      }
+                    style:
+                      border-radius: 0.8vw 0.8vw 0.8vw 0.8vw
+                    deviceID:
+                      - this
+                    card:
+                      type: custom:vertical-stack-in-card
+                      cards:
+                        - type: horizontal-stack
+                          cards:
+                            - type: 'custom:flex-table-card'
+                              title: Today
+                              sort_by: date
+                              entities:
+                                include: sensor.greenely_prices
+                              columns:
+                                - name: time
+                                  attr_as_list: current_day
+                                  modify: x.time
+                                  icon: mdi:clock
+                                - name: price(öre/kWh)
+                                  attr_as_list: current_day
+                                  modify: Math.round(x.price * 10) / 10
+                                  icon: mdi:cash
+                            - type: 'custom:flex-table-card'
+                              title: Tomorrow
+                              sort_by: date
+                              entities:
+                                include: sensor.greenely_prices
+                              columns:
+                                - name: time
+                                  attr_as_list: next_day
+                                  modify: x.time
+                                  icon: mdi:clock
+                                - name: price(öre/kWh)
+                                  attr_as_list: next_day
+                                  modify: Math.round(x.price * 10) / 10
+                                  icon: mdi:cash
+                      style: |
+                        ha-card {
+                          font-family: 'SF Display', sans-serif;
+                        }
+                styles:
+                  card:
+                    - padding: 6%
+                    - height: 170px
+                    - font-size: 20px
+                  grid:
+                    - grid-template-areas: '"i price" "n n" "current current" "next next"'
+                    - grid-template-columns: 1fr 1fr
+                    - grid-template-rows: 1fr min-content min-content min-content
+                  name:
+                    - font-weight: bold
+                    - font-size: 24px
+                    - color: black
+                    - align-self: middle
+                    - justify-self: start
+                    - padding-bottom: 4px
+                  img_cell:
+                    - justify-content: start
+                    - align-items: start
+                    - margin: none
+                  icon:
+                    - color: rgb(152,251,152)
+                    - width: 80%
+                    - margin-top: -10%
+                  custom_fields:
+                    price:
+                      - align-self: start
+                      - justify-self: end
+                      - font-size: 20px
+                    current:
+                      - padding-bottom: 6px
+                      - align-self: middle
+                      - justify-self: start
+                      - font-weight: bold
+                      #- --text-color-sensor: '[[[ if (states['sensor.greenely_prices'].attributes.current_price > 30) return "rgb(255,69,0)"; ]]]'
+                    next:
+                      - padding-bottom: 2px
+                      - align-self: middle
+                      - justify-self: start
+                      - font-size: 18px
+                custom_fields:
+                  price: >
+                     [[[
+                       return `<ha-icon
+                         icon="mdi:account-cash"
+                         style="width: 22px; height: 22px; color: var(--primary-color);">
+                         </ha-icon><span> ${Math.round(entity.state)} kr</span>`
+                     ]]]
+                  current: >
+                    [[[
+                      return states['sensor.greenely_prices'].attributes.current_price + ' öre/kWh';
+                    ]]]
+                  next: >
+                    [[[
+                      var days = states['sensor.greenely_prices'].attributes.current_day;
+                      var next_days = states['sensor.greenely_prices'].attributes.next_day;
+                      var text = 'Next 4 hours:<br>';
+                      var i;
+                      var count = 0;
+                      var time = states['sensor.time'].state;
+                      
+                      for (i = 0; i < days.length; i++) {
+                        if (time < days[i].time) {
+                          if (count < 4) {
+                            count++;
+                            text += Math.round( days[i].price * 10) / 10;
+                            if (count < 4) {
+                              text += ', ';
+                            }
+                          }
+                        }
+                      }
+                      if (count < 4) {
+                        for (i = 0; i < next_days.length; i++) {
+                          if (count < 4) {
+                            count++;
+                            text += Math.round( next_days[i].price * 10) / 10;
+                            if (count < 4) {
+                              text += ', ';
+                            }
+                          }
+                        }
+                      }
+                      return text;
+                    ]]]
+              
+              - type: 'custom:text-divider-row'
+                text: Media
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    icon: 'mdi:party-popper'
+                    color: var(--accent-color)
+                    name: Party!
+                    tap_action:
+                      action: call-service
+                      service: spotcast.start
+                      service_data:
+                        device_name: much cast. many chrome
+                        entity_id: media_player.much_cast_many_chrome
+                        uri: 'spotify:playlist:37i9dQZF1DX4UtSsGT1Sbe'
+                        transfer_playback: true
+                        random_song: true
+                        repeat: playlist
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                  - type: custom:button-card
+                    icon: 'mdi:star-face'
+                    name: PEW PEW
+                    color: var(--accent-color)
+                    tap_action:
+                      action: call-service
+                      service: spotcast.start
+                      service_data:
+                        device_name: much cast. many chrome
+                        entity_id: media_player.much_cast_many_chrome
+                        uri: 'spotify:playlist/7L1hhjpgZhafWluXmFsZpz'
+                        transfer_playback: true
+                        random_song: true
+                        repeat: playlist
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+              - type: conditional
+                conditions:
+                  - entity: media_player.much_cast_many_chrome
+                    state_not: 'off'
+                card:
+                    entity: media_player.much_cast_many_chrome
+                    type: custom:mini-media-player
+                    artwork: cover
+                    hide:
+                      power: true
+                      power_state: true
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+              
+              - break
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: input_select.dishwasher_status
+                          - show_name: false
+                          - show_state: false
+                          - show_label: true
+                          - tap_action:
+                             action: more-info
+                             entity: switch.dishwasher
+                          - state:
+                             - value: 'False'
+                               icon: mdi:dishwasher
+                               label: 'off'
+                               color: "#BAC0C6"
+                             - value: 'idle'
+                               label: 'idle'
+                               icon: mdi:dishwasher
+                               color: rgb(152,251,152)
+                             - value: 'running'
+                               label: 'running'
+                               icon: mdi:dishwasher
+                               color: "#FFA500"
+                        style: |
+                          ha-card {
+                            font-family: 'SF Display', sans-serif;
+                            padding-top: 15px !important;
+                            background-color: rgba(0, 0, 0, 0);
+                            -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                            box-shadow: none;
+                          }
+                          ha-icon {
+                            width: 60% !important;
+                          }
+                          img {
+                            width: 100%;
+                          }
+                          #img-cell {
+                            background-color: #F5F5F5;
+                            height: 50px !important;
+                            width: 50px !important;
+                          }
+                          #state {
+                            padding-top: 5px;
+                          }
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: input_select.washer_status
+                          - show_name: false
+                          - show_label: true
+                          - show_state: false
+                          - tap_action:
+                              action: more-info
+                              entity: switch.washer
+                          - state:
+                             - value: 'False'
+                               icon: mdi:washing-machine
+                               color: "#BAC0C6"
+                               label: 'off'
+                             - value: 'idle'
+                               icon: mdi:washing-machine
+                               color: rgb(152,251,152)
+                             - value: 'running'
+                               icon: mdi:washing-machine
+                               color: "#FFA500"
+                        style: |
+                          ha-card {
+                            font-family: 'SF Display', sans-serif;
+                            padding-top: 15px !important;
+                            background-color: rgba(0, 0, 0, 0);
+                            -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                            box-shadow: none;
+                          }
+                          ha-icon {
+                            width: 60% !important;
+                          }
+                          img {
+                            width: 100%;
+                          }
+                          #img-cell {
+                            background-color: #F5F5F5;
+                            height: 50px !important;
+                            width: 50px !important;
+                          }
+                          #state {
+                            padding-top: 5px;
+                          }
+                        
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: input_select.dryer_status
+                          - show_label: true
+                          - show_name: false
+                          - show_state: false
+                          - tap_action:
+                              action: more-info
+                              entity: switch.dryer
+                          - label: >
+                             [[[ return states['input_select.dryer_status'].state ]]]
+                          - state:
+                             - value: 'False'
+                               icon: mdi:tumble-dryer
+                               color: "#BAC0C6"
+                               label: 'off'
+                             - value: 'idle'
+                               icon: mdi:tumble-dryer
+                               color: rgb(152,251,152)
+                             - value: 'running'
+                               icon: mdi:tumble-dryer
+                               color: "#FFA500"
+                        style: |
+                          ha-card {
+                            font-family: 'SF Display', sans-serif;
+                            padding-top: 15px !important;
+                            background-color: rgba(0, 0, 0, 0);
+                            -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                            box-shadow: none;
+                          }
+                          ha-icon {
+                            width: 60% !important;
+                          }
+                          img {
+                            width: 100%;
+                          }
+                          #img-cell {
+                            background-color: #F5F5F5;
+                            height: 50px !important;
+                            width: 50px !important;
+                          }
+                          #state {
+                            padding-top: 5px;
+                          }
+                          
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: sensor.ac_power
+                          - show_label: true
+                          - show_name: false
+                          - show_state: false
+                          - tap_action:
+                              action: more-info
+                          - state:
+                              - value: 'off'
+                                icon: mdi:air-conditioner
+                                color: "#BAC0C6"
+                                label: 'off'
+                              - value: 'on'
+                                label: 'on'
+                                icon: mdi:air-conditioner
+                                color: "#FFA500"
+                        style: |
+                          ha-card {
+                            font-family: 'SF Display', sans-serif;
+                            padding-top: 15px !important;
+                            background-color: rgba(0, 0, 0, 0);
+                            -webkit-box-shadow: none;
+                            -moz-box-shadow: none;
+                            box-shadow: none;
+                          }
+                          ha-icon {
+                            width: 60% !important;
+                          }
+                          img {
+                            width: 100%;
+                          }
+                          #img-cell {
+                            background-color: #F5F5F5;
+                            height: 50px !important;
+                            width: 50px !important;
+                          }
+                          #state {
+                            padding-top: 5px;
+                          }
+                                
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: input_select.coffee_status
+                          - show_name: false
+                          - show_state: false
+                          - tap_action:
+                              action: more-info
+                              entity: switch.coffee
+                          - state:
+                              - value: 'False'
+                                icon: mdi:coffee
+                                label: 'off'
+                                color: "#BAC0C6"
+                              - value: 'idle'
+                                icon: mdi:coffee
+                                label: 'idle'
+                                color: rgb(152,251,152)
+                              - value: 'brewing'
+                                label: 'brewing'
+                                icon: mdi:coffee
+                                color: "#FFA500"
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - entity: switch.kettle
+                          - show_state: false
+                          - state:
+                              - value: 'off'
+                                icon: mdi:kettle
+                                label: 'off'
+                                color: "#BAC0C6"
+                              - value: 'on'
+                                icon: mdi:kettle
+                                label: 'idle'
+                                color: rgb(152,251,152)
+                              - value: 'boiling'
+                                label: 'boiling'
+                                icon: mdi:kettle
+                                color: "#FFA500"
+                      - type: custom:decluttering-card
+                        template: nest_button
+                        variables:
+                          - show_label: true
+                          - show_name: false
+                          - show_state: false
+                          - name: chester
+                          - entity: group.tv
+                          - state:
+                              - value: 'off'
+                                label: 'off'
+                                icon: mdi:television
+                                color: "#BAC0C6"
+                              - value: 'on'
+                                label: 'on'
+                                icon: mdi:television
+                                color: "#FFA500"
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: 'input_boolean.motion_kitchen'
+                    icon: 'mdi:ghost'
+                    color: var(--light-primary-color)
+                    name: Kitchen
+                    styles:
+                      icon:
+                        - color: >
+                            [[[
+                              if (entity.state == 'on') return 'var(--light-primary-color)';
+                              else return 'var(--white)';
+                            ]]]
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                  - type: custom:button-card
+                    entity: 'input_boolean.motion_hallway'
+                    icon: 'mdi:ghost'
+                    color: var(--light-primary-color)
+                    name: Hallway
+                    styles:
+                      icon:
+                        - color: >
+                            [[[
+                              if (entity.state == 'on') return 'var(--light-primary-color)';
+                              else return 'var(--white)';
+                            ]]]
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif !important;
+                      }
+                     
+              - type: 'custom:text-divider-row'
+                text: Status
+              - type: plant-status
+                entity: plant.kitty_plant
+                name: Kitty plant
+                style: |
+                  ha-card {
+                    font-size: 12px;
+                    font-family: 'SF Display', sans-serif;
+                  }
+                  .header {
+                    height: 20px;
+                    margin-top: -20px;
+                    font-weight: bold !important;
+                    font-size: 16px !important;
+                    font-family: 'SF Display', sans-serif !important;
+                  }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: sensor.bathroom_litterbox_days
+                    name: bath
+                    icon: mdi:emoticon-poop
+                    show_state: true
+                    tap_action:
+                      confirmation:
+                        text: '[[[ return `Are you sure you have cleaned the bathroom box?` ]]]'
+                      action: call-service
+                      service: script.turn_on
+                      service_data:
+                        entity_id: script.store_litterbox_bathroom_last_cleaned
+                    styles:  
+                      grid:
+                        - grid-template-areas: '"s s" "i i" "n n"'
+                        - grid-template-columns: 1fr 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      name:
+                        - justify-self: middle
+                        - align-self: middle
+                        - text-transform: lowercase
+                      state:
+                        - align-self: middle
+                        - justify-self: middle
+                        - font-weight: bold
+                        - font-size: 36px
+                        - color: >
+                           [[[
+                             if (entity.state < 8) return '#C5C5D2';
+                             else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                             else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                             else return 'rgb(255,69,0)';
+                           ]]]
+                      icon:
+                        - justify-content: start
+                        - align-items: start
+                        - color: >
+                           [[[
+                            if (entity.state < 8) return '#C5C5D2';
+                            else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                            else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                            else return 'rgb(255,69,0)';
+                           ]]]
+                  - type: custom:button-card
+                    entity: sensor.left_litterbox_days
+                    name: left
+                    icon: mdi:emoticon-poop
+                    show_state: true
+                    tap_action:
+                      confirmation:
+                        text: '[[[ return `Are you sure you have cleaned the left box?` ]]]'
+                      action: call-service
+                      service: script.turn_on
+                      service_data:
+                        entity_id: script.store_litterbox_left_last_cleaned
+                    styles:
+                      grid:
+                        - grid-template-areas: '"s s" "i i" "n n"'
+                        - grid-template-columns: 1fr 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      name:
+                        - justify-self: middle
+                        - align-self: middle
+                        - text-transform: lowercase
+                      state:
+                        - align-self: middle
+                        - justify-self: middle
+                        - font-weight: bold
+                        - font-size: 36px
+                        - color: >
+                           [[[
+                             if (entity.state < 8) return '#C5C5D2';
+                             else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                              else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                              else return 'rgb(255,69,0)';
+                            ]]]
+                      icon:
+                        - justify-content: start
+                        - align-items: start
+                        - color: >
+                           [[[
+                             if (entity.state < 8) return '#C5C5D2';
+                             else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                             else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                             else return 'rgb(255,69,0)';
+                           ]]]
+                  - type: custom:button-card
+                    entity: sensor.right_litterbox_days
+                    name: right
+                    icon: mdi:emoticon-poop
+                    show_state: true
+                    tap_action:
+                      confirmation:
+                        text: '[[[ return `Are you sure you have cleaned the right box?` ]]]'
+                      action: call-service
+                      service: script.turn_on
+                      service_data:
+                        entity_id: script.store_litterbox_right_last_cleaned
+                    styles:
+                      grid:
+                        - grid-template-areas: '"s s" "i i" "n n"'
+                        - grid-template-columns: 1fr 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      name:
+                        - justify-self: middle
+                        - align-self: middle
+                        - text-transform: lowercase
+                      state:
+                        - align-self: middle
+                        - justify-self: middle
+                        - font-weight: bold
+                        - font-size: 36px
+                        - color: >
+                           [[[
+                             if (entity.state < 8) return '#C5C5D2';
+                               else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                               else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                               else return 'rgb(255,69,0)';
+                             ]]]
+                      icon:
+                        - justify-content: start
+                        - align-items: start
+                        - color: >
+                           [[[
+                             if (entity.state < 8) return '#C5C5D2';
+                             else if (entity.state >= 8 && entity.state < 15) return 'rgb(152,251,152)';
+                             else if (entity.state >= 15 && entity.state < 21) return '#FFA500';
+                             else return 'rgb(255,69,0)';
+                           ]]]
+                      
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.lounge_temp_3
+                    animate: true
+                    name: lounge
+                    line_width: 10
+                    font_size: 80
+                    hour24: true
+                    hours_to_show: 24
+                    state_adaptive_color: true
+                    show:
+                      labels: false
+                      fill: true
+                      name_adaptive_color: true
+                      icon_adaptive_color: true
+                      extrema: false
+                    color_thresholds:
+                      - value: 0
+                        color: "#CCE5FF"
+                      - value: 10
+                        color: "#66B2FF"
+                      - value: 18
+                        color: "#0080FF"
+                      - value: 20
+                        color: "#87c087"
+                      - value: 21
+                        color: "#389638"
+                      - value: 24
+                        color: "#FF9932"
+                      - value: 25
+                        color: "#FF8000"
+                      - value: 26
+                        color: "#ff0000"
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif;
+                      }
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.bedroom_temp
+                    animate: true
+                    name: bedroom
+                    line_width: 10
+                    font_size: 80
+                    hour24: true
+                    hours_to_show: 24
+                    state_adaptive_color: true
+                    show:
+                      labels: false
+                      fill: true
+                      name_adaptive_color: true
+                      icon_adaptive_color: true
+                      extrema: false
+                    color_thresholds:
+                      - value: 0
+                        color: "#CCE5FF"
+                      - value: 10
+                        color: "#66B2FF"
+                      - value: 18
+                        color: "#0080FF"
+                      - value: 20
+                        color: "#87c087"
+                      - value: 21
+                        color: "#389638"
+                      - value: 24
+                        color: "#FF9932"
+                      - value: 25
+                        color: "#FF8000"
+                      - value: 26
+                        color: "#ff0000"
+                    style: |
+                      ha-card {
+                        font-family: 'SF Display', sans-serif;
+                      }
+                      
+                                

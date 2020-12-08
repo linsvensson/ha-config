@@ -1,0 +1,100 @@
+#https://home-assistant.io/components/sensor/
+
+####################################################
+#                                                  #
+#                      MISC                        #
+#                                                  #
+####################################################
+
+#https://github.com/JohNan/home-assistant-pollenkoll
+  #- platform: pollenniva
+  #  scan_interval: 4
+  #  state_as_string: false
+  #  sensors:
+  #    - city: Bräkne-Hoby
+  #      days_to_track: 1
+  #      allergens:
+  #        - Al
+  #        - Alm
+  #        - Bok
+  #        - Ambrosia
+  #        - Hassel
+  #        - Björk
+  #        - Sälg / Vide
+  #        - Ek
+  #        - Gräs
+  #        - Gråbo
+  
+  - platform: cert_expiry
+    host: home-assistant.io
+  
+#  - platform: docker_monitor
+#    host: tcp://192.168.1.141:2375
+#    containers:
+#      - homeassistant
+#      - hassio_supervisor
+#      - portainer
+#      - deconz
+#      - mqtt
+#      - mynodered
+#    monitored_conditions:
+#      - utilization_version
+#      - container_status
+#      - container_memory_usage
+#      - container_memory_percentage_usage
+#      - container_cpu_percentage_usage
+
+  - platform: greenely
+    email: !secret greenely_email
+    password: !secret greenely_password
+    usage: false
+    prices: true
+    usage_days: 14
+    show_hourly: true
+
+  - platform: aarlo
+    monitored_conditions:
+    - last_capture
+    - total_cameras
+    - battery_level
+    - captured_today
+    - signal_strength
+    
+  #- platform: discord_game
+  #  token: !secret discord_bot_token
+  #  members:
+  #    - Oulous#2656
+  #    - Saepo#6519
+    
+#https://www.home-assistant.io/components/miflora/
+#  - platform: miflora
+#    mac: 'C4:7C:8D:6A:9D:CC'
+#    name: kitty plant
+#    force_update: true
+#    #median: 1
+#    monitored_conditions:
+#      - moisture
+#      - light
+#      - temperature
+#      - conductivity
+#      - battery
+    
+#https://github.com/custom-components/sensor.plex_recently_added
+  #- platform: plex_recently_added
+  #  host: 192.168.1.141
+  #  token: !secret plex_token
+  #  
+  #- platform: spotcast
+    
+#https://github.com/custom-components/authenticated
+  - platform: authenticated
+    enable_notification: false
+
+#https://github.com/ljmerza/ha-email-sensor
+  #- platform: email
+  #  email: !secret carolin_email
+  #  password: !secret carolin_email_password 
+  #- platform: email
+  #  email: !secret secondary_email
+  #  password: !secret secondary_email_password
+    

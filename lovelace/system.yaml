@@ -1,0 +1,183 @@
+
+####################################################
+#                                                  #
+#                     SYSTEM                       #
+#                                                  #
+####################################################
+
+title: System Info
+path: system
+icon: mdi:monitor-dashboard
+panel: true
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+          - type: 'custom:text-divider-row'
+            text: Home Assistant
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: glance
+                entities:
+                  - entity: sensor.installed_version
+                    name: Installed
+                    icon: mdi:folder-download
+                  - entity: sensor.latest_available_version
+                    name: Latest Release
+                    icon: mdi:github
+                  - entity: sensor.badlogin
+                    name: Bad Logins
+                    icon: mdi:alert-circle
+                columns: 3
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.hacs
+                    icon: mdi:package
+                    name: HACS
+                  - entity: sensor.home_assistant_log
+                    icon: mdi:file-document
+                    name: Log File
+                  - entity: sensor.home_assistant_v2_db 
+                    icon: mdi:file-document
+                    name: Database
+          - type: vertical-stack
+            cards:
+              - type: 'custom:text-divider-row'
+                text: Vally
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.processor_use_percent
+                    name: Processor
+                    icon: mdi:memory
+                    line_width: 14
+                    line_color: "#7bff5e"
+                    font_size: 60
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.vally_cpu_temp
+                    name: CPU Temp
+                    icon: mdi:thermometer
+                    line_width: 14
+                    line_color: "#5ee4ff"
+                    font_size: 60
+                  - type: custom:mini-graph-card
+                    entities:
+                      - sensor.memory_use_percent
+                    name: Memory
+                    icon: mdi:memory
+                    line_width: 14
+                    line_color: "#ffac5e"
+                    font_size: 60
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.disk_use_percent_home
+                    icon: mdi:harddisk
+                    name: Disk Usage
+                  - entity: sensor.vally_uptime
+                    icon: mdi:clock
+                    name: Uptime
+          - break
+          #- type: 'custom:text-divider-row'
+          #  text: Network
+          #- type: horizontal-stack
+          #  cards:
+          #    - type: custom:mini-graph-card
+          #      entities:
+          #        - sensor.asuswrt_download
+          #      name: Daily down
+          #      icon: mdi:speedometer
+          #      line_width: 14
+          #      line_color: "#ffac5e"
+          #      font_size: 60
+          #    - type: custom:mini-graph-card
+          #      entities:
+          #        - sensor.asuswrt_download_speed
+          #      name: Download
+          #      icon: mdi:speedometer
+          #      line_width: 14
+          #      line_color: "#5ee4ff"
+          #      font_size: 60
+          #    - type: custom:mini-graph-card
+          #      entities:
+          #        - sensor.asuswrt_upload_speed
+          #      name: Upload
+          #      icon: mdi:speedometer
+          #      line_width: 14
+          #      line_color: "#7bff5e"
+          #      font_size: 60
+          - type: 'custom:text-divider-row'
+            text: Local devices
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - type: section
+                    label: Engelbrekt
+                  - entity: sensor.engelbrekt
+                    name: Status
+                  - entity: sensor.engelbrekt_uptime
+                    name: Uptime
+                  - type: section
+                    label: DESKTOP-9DN3R1T
+                  - entity: sensor.dickmachine
+                    name: Status
+                  - entity: sensor.dickmachine_uptime
+                    name: Uptime
+                  - type: section
+                    label: Other
+                  - entity: device_tracker.rune
+                    name: Rune
+          - break
+          - type: 'custom:text-divider-row'
+            text: Arlo
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.aarlo_captured_today_arlo
+                    name: Captured today
+                  - entity: sensor.aarlo_last_arlo
+                    name: Last motion
+          - type: 'custom:text-divider-row'
+            text: Battery
+          - type: custom:vertical-stack-in-card
+            cards:
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.svante_battery_level
+                    name: Svante
+                  - entity: sensor.redmi_5_plus_battery_level
+                    name: Bert
+                  - entity: sensor.paddington_battery
+                    name: Paddington
+          - type: 'custom:text-divider-row'
+            text: Battery warnings
+          - type: custom:auto-entities
+            show_empty: false
+            card:
+              type: entities
+              show_header_toggle: false
+            filter:
+              exclude:
+                - entity_id: 'sensor.paddington_battery'
+                - entity_id: 'sensor.redmi_5_plus_battery_level'
+                - entity_id: 'sensor.svante_battery_level'
+                - entity_id: 'sensor.bert_battery'
+                - entity_id: '*phone*'
+              include:
+                - domain: sensor
+                  entity_id: '*battery*'
+                  options:
+                    secondary_info: last_changed
+                  state: < 15
+          
+                         
