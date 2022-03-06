@@ -13,40 +13,62 @@ cards:
   - type: vertical-stack
     cards:
       - type: custom:layout-card
-        layout: vertical
+        layout_type: custom:vertical-layout
         cards:
-          - type: 'custom:text-divider-row'
-            text: Home Assistant
-          - type: custom:vertical-stack-in-card
-            cards:
-              - type: glance
+          - type: custom:mushroom-title-card
+            title: Home Assistant
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: sensor.badlogin
+                name: Bad Logins
+                icon: mdi:alert-circle
+              - entity: sensor.template_hass_version
+                icon: mdi:home-assistant
+              - entity: sensor.hacs
+                icon: mdi:package
+                name: HACS
+              - entity: sensor.home_assistant_log
+                icon: mdi:file-document
+                name: Log File
+              - entity: sensor.home_assistant_v2_db 
+                icon: mdi:database
+                name: Database
+              - type: attribute
+                entity: sensor.docker_home_assistant
+                attribute: uptime
+                format: relative
+                name: Latest restart
+                icon: mdi:update
+              - type: custom:bar-card 
+                width: 55%
+                height: 2em
+                decimal: 0
+                unit_of_measurement: '%'
+                positions:
+                  icon: outside
+                  indicator: 'off'
+                  name: outside
+                severity: &bar_card_severity
+                  - color: '#6d2525'
+                    from: 90
+                    to: 999
+                entity_row: true
                 entities:
-                  - entity: sensor.installed_version
-                    name: Installed
-                    icon: mdi:folder-download
-                  - entity: sensor.latest_available_version
-                    name: Latest Release
-                    icon: mdi:github
-                  - entity: sensor.badlogin
-                    name: Bad Logins
-                    icon: mdi:alert-circle
-                columns: 3
-              - type: entities
-                show_header_toggle: false
-                entities:
-                  - entity: sensor.hacs
-                    icon: mdi:package
-                    name: HACS
-                  - entity: sensor.home_assistant_log
-                    icon: mdi:file-document
-                    name: Log File
-                  - entity: sensor.home_assistant_v2_db 
-                    icon: mdi:file-document
-                    name: Database
+    
+                  - entity: sensor.docker_home_assistant
+                    attribute: cpu_percentage
+                    name: Processor
+                    icon: mdi:chip
+    
+                  - entity: sensor.docker_home_assistant
+                    attribute: memory_percentage
+                    name: Memory
+                    icon: mdi:memory
           - type: vertical-stack
             cards:
-              - type: 'custom:text-divider-row'
-                text: Vally
+              - type: custom:mushroom-title-card
+                title: Vally
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
@@ -54,15 +76,16 @@ cards:
                       - sensor.processor_use_percent
                     name: Processor
                     icon: mdi:memory
-                    line_width: 14
+                    line_width: 8
                     line_color: "#7bff5e"
                     font_size: 60
+                    
                   - type: custom:mini-graph-card
                     entities:
                       - sensor.vally_cpu_temp
                     name: CPU Temp
                     icon: mdi:thermometer
-                    line_width: 14
+                    line_width: 8
                     line_color: "#5ee4ff"
                     font_size: 60
                   - type: custom:mini-graph-card
@@ -70,97 +93,156 @@ cards:
                       - sensor.memory_use_percent
                     name: Memory
                     icon: mdi:memory
-                    line_width: 14
+                    line_width: 8
                     line_color: "#ffac5e"
                     font_size: 60
               - type: entities
                 show_header_toggle: false
                 entities:
-                  - entity: sensor.disk_use_percent_home
-                    icon: mdi:harddisk
-                    name: Disk Usage
+                  - type: custom:bar-card
+                    width: 55%
+                    height: 2em
+                    decimal: 0
+                    unit_of_measurement: '%'
+                    entity_row: true
+                    entities:  
+                      - entity: sensor.disk_use_percent_home
+                        name: Storage
+                        tap_action:
+                          action: call-service
+                          service: homeassistant.update_entity
+                          service_data:
+                            entity_id: sensor.disk_use_percent_home
                   - entity: sensor.vally_uptime
                     icon: mdi:clock
                     name: Uptime
-          - break
-          #- type: 'custom:text-divider-row'
-          #  text: Network
-          #- type: horizontal-stack
-          #  cards:
-          #    - type: custom:mini-graph-card
-          #      entities:
-          #        - sensor.asuswrt_download
-          #      name: Daily down
-          #      icon: mdi:speedometer
-          #      line_width: 14
-          #      line_color: "#ffac5e"
-          #      font_size: 60
-          #    - type: custom:mini-graph-card
-          #      entities:
-          #        - sensor.asuswrt_download_speed
-          #      name: Download
-          #      icon: mdi:speedometer
-          #      line_width: 14
-          #      line_color: "#5ee4ff"
-          #      font_size: 60
-          #    - type: custom:mini-graph-card
-          #      entities:
-          #        - sensor.asuswrt_upload_speed
-          #      name: Upload
-          #      icon: mdi:speedometer
-          #      line_width: 14
-          #      line_color: "#7bff5e"
-          #      font_size: 60
-          - type: 'custom:text-divider-row'
-            text: Local devices
-          - type: custom:vertical-stack-in-card
+          - type: custom:layout-break
+          - type: vertical-stack
             cards:
-              - type: entities
-                show_header_toggle: false
-                entities:
-                  - type: section
-                    label: Engelbrekt
-                  - entity: sensor.engelbrekt
-                    name: Status
-                  - entity: sensor.engelbrekt_uptime
-                    name: Uptime
-                  - type: section
-                    label: DESKTOP-9DN3R1T
-                  - entity: sensor.dickmachine
-                    name: Status
-                  - entity: sensor.dickmachine_uptime
-                    name: Uptime
-                  - type: section
-                    label: Other
-                  - entity: device_tracker.rune
-                    name: Rune
-          - break
-          - type: 'custom:text-divider-row'
-            text: Arlo
-          - type: custom:vertical-stack-in-card
+              - type: custom:mushroom-title-card
+                title: Paddington
+              - type: horizontal-stack
+                cards:
+                  - type: entities
+                    card_mod:
+                      class: content
+                    show_header_toggle: false
+                    entities:
+                      - entity: switch.lenovo_tab_m10_screensaver
+                        secondary_info: last-changed
+                        icon: mdi:power-sleep
+                        name: Screensaver
+                      - entity: light.lenovo_tab_m10_screen
+                        name: Display
+                        icon: mdi:tablet
+                      - entity: binary_sensor.lenovo_tab_m10_plugged_in
+                        name: Power
+                      - type: custom:bar-card
+                        width: 55%
+                        height: 2em
+                        decimal: 0
+                        unit_of_measurement: '%'
+                        positions: &bar_card_positions
+                          icon: outside
+                          indicator: 'off'
+                          name: outside
+                        severity:
+                          - color: '#6d2525'
+                            from: 0
+                            to: 89
+                          - color: '#303435'
+                            from: 90
+                            to: 999
+                        entity_row: true
+                        entities:
+            
+                          - entity: sensor.lenovo_tab_m10_battery_level
+                            icon: mdi:battery
+                            name: Battery
+                            tap_action:
+                              action: call-service
+                              service: homeassistant.update_entity
+                              service_data:
+                                entity_id: sensor.lenovo_tab_m10_battery_level
+                    
+                      - type: custom:bar-card
+                        width: 55%
+                        height: 2em
+                        decimal: 0
+                        unit_of_measurement: '%'
+                        positions: *bar_card_positions
+                        severity:
+                          - color: '#6d2525'
+                            from: 90
+                            to: 999
+                        entity_row: true
+                        entities:
+            
+                          - entity: sensor.template_fullykiosk_memory
+                            name: Memory - 3GB
+                            icon: mdi:memory
+                            tap_action:
+                              action: call-service
+                              service: homeassistant.update_entity
+                              service_data:
+                                entity_id: sensor.template_fullykiosk_memory
+            
+                          - entity: sensor.template_fullykiosk_storage
+                            name: Storage - 32GB
+                            icon: mdi:sd
+                            tap_action:
+                              action: call-service
+                              service: homeassistant.update_entity
+                              service_data:
+                                entity_id: sensor.template_fullykiosk_storage
+                    
+          - type: custom:mushroom-title-card
+            title: Network
+          - type: horizontal-stack
             cards:
-              - type: entities
-                show_header_toggle: false
+              - type: custom:mini-graph-card
                 entities:
-                  - entity: sensor.aarlo_captured_today_arlo
-                    name: Captured today
-                  - entity: sensor.aarlo_last_arlo
-                    name: Last motion
-          - type: 'custom:text-divider-row'
-            text: Battery
-          - type: custom:vertical-stack-in-card
-            cards:
-              - type: entities
-                show_header_toggle: false
+                  - sensor.speedtest_ping
+                name: Ping
+                icon: mdi:speedometer
+                line_width: 8
+                line_color: "#ffac5e"
+                font_size: 60
+              - type: custom:mini-graph-card
                 entities:
-                  - entity: sensor.svante_battery_level
-                    name: Svante
-                  - entity: sensor.redmi_5_plus_battery_level
-                    name: Bert
-                  - entity: sensor.paddington_battery
-                    name: Paddington
-          - type: 'custom:text-divider-row'
-            text: Battery warnings
+                  - sensor.speedtest_download
+                name: Download
+                icon: mdi:speedometer
+                line_width: 8
+                line_color: "#5ee4ff"
+                font_size: 60
+              - type: custom:mini-graph-card
+                entities:
+                  - sensor.speedtest_upload
+                name: Upload
+                icon: mdi:speedometer
+                line_width: 8
+                line_color: "#7bff5e"
+                font_size: 60
+          - type: custom:layout-break
+          - type: custom:mushroom-title-card
+            title: Arlo
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: sensor.aarlo_captured_today_arlo
+                name: Captured today
+              - entity: sensor.aarlo_last_arlo
+                name: Last motion
+          - type: custom:mushroom-title-card
+            title: Local devices
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: device_tracker.rune
+                name: Rune
+          - type: custom:mushroom-title-card
+            title: Battery warnings
           - type: custom:auto-entities
             show_empty: false
             card:
@@ -168,10 +250,9 @@ cards:
               show_header_toggle: false
             filter:
               exclude:
-                - entity_id: 'sensor.paddington_battery'
-                - entity_id: 'sensor.redmi_5_plus_battery_level'
-                - entity_id: 'sensor.svante_battery_level'
-                - entity_id: 'sensor.bert_battery'
+                #- entity_id: 'sensor.paddington_battery_level_2'
+                #- entity_id: 'sensor.svante_battery_level'
+                #- entity_id: 'sensor.bert_battery'
                 - entity_id: '*phone*'
               include:
                 - domain: sensor

@@ -1,0 +1,21 @@
+#https://www.home-assistant.io/integrations/light.group/
+
+####################################################
+#                                                  #
+#                  LIGHT GROUPS                    #
+#                                                  #
+####################################################
+
+- platform: group
+  name: Kitchen Spotlight
+  entities:
+    - light.kitchen_left
+    - light.kitchen_mid
+    - light.kitchen_right
+    
+- platform: group
+  name: Lounge Spotlight
+  entities:
+    - light.spotlight_0
+    - light.spotlight_1
+    - light.spotlight_2

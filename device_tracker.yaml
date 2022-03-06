@@ -16,10 +16,10 @@
 #  - platform: bluetooth_tracker
 
 #https://www.home-assistant.io/components/device_tracker.google_maps/
-  - platform: google_maps
-    max_gps_accuracy: 50
-    scan_interval: 60
-    username: !secret location_share_account
+#  - platform: google_maps
+#    max_gps_accuracy: 50
+#    scan_interval: 60
+#    username: !secret location_share_account
     
 #https://www.home-assistant.io/integrations/ddwrt/
   - platform: ddwrt

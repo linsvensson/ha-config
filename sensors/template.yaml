@@ -10,36 +10,24 @@
   - platform: template
     sensors:
     
-      paddington_memory_percentage:
-        unit_of_measurement: '%'
-        value_template: "{{ ((states('sensor.paddington_free_ram') | int / states('sensor.paddington_total_ram') | int) * 100) | round }}"
-    
-      paddington_storage_percentage:
-        unit_of_measurement: '%'
-        value_template: "{{ ((states('sensor.paddington_free_space') | int / states('sensor.paddington_total_space') | int) * 100) | round }}"
-    
-      gert_battery:
-        device_class: battery
-        friendly_name: 'Gert Battery'
-        value_template: "{{state_attr('device_tracker.google_maps_112601249990817195132', 'battery_level') | round}}"
-        unit_of_measurement: '%'
-        
-      bert_battery:
-        device_class: battery
-        friendly_name: 'Bert Battery'
-        value_template: "{{state_attr('device_tracker.google_maps_112745776118660044315', 'battery_level') | round}}"
-        unit_of_measurement: '%'
-        
-      paddington_battery:
-        device_class: battery
-        friendly_name: 'Paddington Battery'
-        value_template: "{{states('sensor.paddington_battery_level') | round}}"
-        unit_of_measurement: '%'
+      #paddington_memory_percentage:
+      #  unit_of_measurement: '%'
+      #  value_template: "{{ ((states('sensor.paddington_free_ram') | int(0) / states('sensor.paddington_total_ram') | int(0)) * 100) | round }}"
+    #
+      #paddington_storage_percentage:
+      #  unit_of_measurement: '%'
+      #  value_template: "{{ ((states('sensor.paddington_free_space') | int(0) / states('sensor.paddington_total_space') | int(0)) * 100) | round }}"
+      #  
+      #paddington_battery:
+      #  device_class: battery
+      #  friendly_name: 'Paddington Battery'
+      #  value_template: "{{states('sensor.paddington_battery_level') | round}}"
+      #  unit_of_measurement: '%'
     
       washer:
         value_template: >-
           {% set status = states('switch.washer') %}
-          {% set power = states('sensor.washer_power') | int %}
+          {% set power = states('sensor.node_2_electric_consumed_w') | int(0) %}
           {% if status == 'on' %}
             {{ 'running' if power > 2 else 'idle' }}
           {% else %}
@@ -50,8 +38,8 @@
           
       dryer:
         value_template: >-
-          {% set status = states('switch.dryer') %}
-          {% set power = states('sensor.dryer_power') | int %}
+          {% set status = states('switch.dryer_current_value') %}
+          {% set power = states('sensor.dryer_electric_consumed_w') | int(0) %}
           {% if status == 'on' %}
             {{ 'running' if power > 2 else 'idle' }}
           {% else %}
@@ -62,7 +50,7 @@
     
       ac_power:
         value_template: >-
-          {% set power = states('sensor.qubino_goap_zmnhyd1_smart_plug_16a_power') | int %}
+          {% set power = states('sensor.ac_electric_consumed_w') | int(0) %}
           {{ 'on' if power > 2 else 'off' }}
         icon_template: >-
           mdi:fan
@@ -83,74 +71,68 @@
              mdi:window-closed
           {% endif %}
           
-      dickmachine:
-        entity_id:
-          - sensor.date_time
-        value_template: >-
-         {% set time_diff = as_timestamp(utcnow()) - as_timestamp(states.sensor.dickmachine_timeticks.last_changed) %}
-         {% set minutes = (time_diff / 60) | int  %}
-         {%- if minutes < 5 %} On {% else %} Off {% endif -%}
-        icon_template: >-
-          mdi:desktop-classic
+      #dickmachine:
+      #  value_template: >-
+      #   {% set time_diff = as_timestamp(utcnow()) - as_timestamp(states.sensor.dickmachine_timeticks.last_changed) %}
+      #   {% set minutes = (time_diff / 60) | int(0)  %}
+      #   {%- if minutes < 5 %} On {% else %} Off {% endif -%}
+      #  icon_template: >-
+      #    mdi:desktop-classic
           
-      dickmachine_uptime:
-        value_template: >-
-         {% set time = states('sensor.dickmachine_timeticks') | int %}
-         {% set minutes = ((time % 360000) / 6000) | int%}
-         {% set hours = ((time % 8640000) / 360000) | int %}
-         {% set days = (time / 8640000) | int %}
-         {% macro phrase(value, name) %}
-         {%- set value = value | int %}
-         {%- set end = 's' if value > 1 else '' %}
-         {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
-         {%- endmacro %}          
-         {% set text = [ phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
-         {%- if states.sensor.dickmachine.state == 'Off' %} n/a {% else %} {{text}} {% endif -%}  
-        icon_template: >-
-          mdi:clock    
+      #dickmachine_uptime:
+      #  value_template: >-
+      #   {% set time = states('sensor.dickmachine_timeticks') | int(0) %}
+      #   {% set minutes = ((time % 360000) / 6000) | int(0)%}
+      #   {% set hours = ((time % 8640000) / 360000) | int(0) %}
+      #   {% set days = (time / 8640000) | int(0) %}
+      #   {% macro phrase(value, name) %}
+      #   {%- set value = value | int(0) %}
+      #   {%- set end = 's' if value > 1 else '' %}
+      #   {{- '{} {}{}'.format(value, name, end) if value | int(0) > 0 else '' }}
+      #   {%- endmacro %}          
+      #   {% set text = [ phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
+      #   {%- if states.sensor.dickmachine.state == 'Off' %} n/a {% else %} {{text}} {% endif -%}  
+      #  icon_template: >-
+      #    mdi:clock    
           
-      engelbrekt:
-        entity_id:
-          - sensor.date_time
-        value_template: >-
-         {% set time_diff = as_timestamp(utcnow()) - as_timestamp(states.sensor.engelbrekt_timeticks.last_changed) %}
-         {% set minutes = (time_diff / 60) | int  %}
-         {%- if minutes < 5 %} On {% else %} Off {% endif -%}
-        icon_template: >-
-          mdi:desktop-classic
-          
-      engelbrekt_uptime:
-        value_template: >-
-         {% set time = states('sensor.engelbrekt_timeticks') | int %}
-         {% set minutes = ((time % 360000) / 6000) | int%}
-         {% set hours = ((time % 8640000) / 360000) | int %}
-         {% set days = (time / 8640000) | int %}
-         {% macro phrase(value, name) %}
-         {%- set value = value | int %}
-         {%- set end = 's' if value > 1 else '' %}
-         {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
-         {%- endmacro %}          
-         {% set text = [ phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
-         {%- if states.sensor.engelbrekt.state == 'Off' %} n/a {% else %} {{text}} {% endif -%}
-        icon_template: >-
-          mdi:clock
+      #engelbrekt:
+      #  value_template: >-
+      #   {% set time_diff = as_timestamp(utcnow()) - as_timestamp(states.sensor.engelbrekt_timeticks.last_changed) %}
+      #   {% set minutes = (time_diff / 60) | int(0)  %}
+      #   {%- if minutes < 5 %} On {% else %} Off {% endif -%}
+      #  icon_template: >-
+      #    mdi:desktop-classic
+      #    
+      #engelbrekt_uptime:
+      #  value_template: >-
+      #   {% set time = states('sensor.engelbrekt_timeticks') | int(0) %}
+      #   {% set minutes = ((time % 360000) / 6000) | int(0)%}
+      #   {% set hours = ((time % 8640000) / 360000) | int(0) %}
+      #   {% set days = (time / 8640000) | int(0) %}
+      #   {% macro phrase(value, name) %}
+      #   {%- set value = value | int(0) %}
+      #   {%- set end = 's' if value > 1 else '' %}
+      #   {{- '{} {}{}'.format(value, name, end) if value | int(0) > 0 else '' }}
+      #   {%- endmacro %}          
+      #   {% set text = [ phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
+      #   {%- if states.sensor.engelbrekt.state == 'Off' %} n/a {% else %} {{text}} {% endif -%}
+      #  icon_template: >-
+      #    mdi:clock
           
       vally_uptime:
-        entity_id:
-          - sensor.date_time
         value_template: >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
-          {% set days = (time_diff // (60 * 60 * 24)) | int %}
-          {% set weeks = (days // 7) | int %}
-          {% set hours = (time_diff // (60 * 60)) | int %}
+          {% set days = (time_diff // (60 * 60 * 24)) | int(0) %}
+          {% set weeks = (days // 7) | int(0) %}
+          {% set hours = (time_diff // (60 * 60)) | int(0) %}
           {% set hours =  hours - days * 24 %}
-          {% set minutes = (time_diff // 60) | int %}
+          {% set minutes = (time_diff // 60) | int(0) %}
           {% set minutes = minutes - (days * 24 * 60) - (hours * 60) %}
-          {% set days = (days | int) - (weeks * 7) %}
+          {% set days = (days | int(0)) - (weeks * 7) %}
           {% macro phrase(value, name) %}
-          {%- set value = value | int %}
+          {%- set value = value | int(0) %}
           {%- set end = 's' if value > 1 else '' %}
-          {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
+          {{- '{} {}{}'.format(value, name, end) if value | int(0) > 0 else '' }}
           {%- endmacro %}          
           {% set text = [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
           {{ text }}
@@ -158,37 +140,28 @@
           mdi:clock
           
       fountain_filter_days:
-        entity_id:
-          - sensor.date_time
         value_template:  >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.fountain_filter_last_changed')) %}
-          {{ (time_diff // (60 * 60 * 24)) | int }}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
           
       fountain_days:
-        entity_id:
-          - sensor.date_time
         value_template:  >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.fountain_last_cleaned')) %}
-          {{ (time_diff // (60 * 60 * 24)) | int }}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
     
       left_litterbox_days:
-        entity_id:
-          - sensor.date_time
         value_template:  >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_left_last_cleaned')) %}
-          {{ (time_diff // (60 * 60 * 24)) | int }}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
     
       right_litterbox_days:
-        entity_id:
-          - sensor.date_time
         value_template:  >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_right_last_cleaned')) %}
-          {{ (time_diff // (60 * 60 * 24)) | int }}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
           
       bathroom_litterbox_days:
-        entity_id:
-          - sensor.date_time
         value_template:  >-
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_bathroom_last_cleaned')) %}
-          {{ (time_diff // (60 * 60 * 24)) | int }}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
         

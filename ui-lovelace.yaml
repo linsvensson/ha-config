@@ -1,8 +1,7 @@
-#button_card_templates:
-#  !include_dir_merge_list lovelace/button_card_templates/
-
 decluttering_templates:
   !include lovelace/decluttering_templates/decluttering_templates.yaml
+  
+button_card_templates: !include lovelace/decluttering_templates/button_card_templates.yaml
   
 title: Home
 background: var(--background)
@@ -13,5 +12,7 @@ views:
   - !include lovelace/greenely.yaml
   - !include lovelace/status.yaml
   - !include lovelace/system.yaml
-  - !include lovelace/batteries.yaml
+  - !include lovelace/docker.yaml
   - !include lovelace/greenely-dash.yaml
+  - !include lovelace/batteries.yaml
+  - !include lovelace/usage.yaml

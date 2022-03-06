@@ -1,0 +1,80 @@
+# Scripts #
+script.current_electricity_price:
+  name: Check current electricity price
+script.bedroom_temp:
+  name: Check current bedroom temperature
+script.lounge_temp:
+  name: Check current lounge temperature
+script.electricity_today:
+  name: Check if it's cheap today
+script.dinner_ready:
+  name: Tell Will dinner is ready
+
+# Groups #
+group.bedroom_cozy:
+  room: bedroom
+  name: cozy bedroom
+group.bedroom_balls:
+  room: bedroom
+  name: bedroom balls
+group.bedroom_lights:
+  room: bedroom
+  name: bedroom lights
+group.window_lights:
+  room: lounge
+  name: window lights
+switch.couch_time:
+  room: lounge
+  name: couch time
+group.all_lights:
+  room: all
+  name: all lights
+group.default_lights:
+  room: all
+  name: normal lights
+  
+# Lights #
+light.lounge_spotlight:
+  name: lounge light
+  room: lounge
+light.kitchen_spotlight:
+  name: kitchen light
+  room: kitchen
+light.floalt:
+  room: lounge
+  name: the sun
+light.hallway:
+  room: hallway
+  name: hallway light
+light.kitchen_table:
+  room: dining
+  name: dinner time
+light.disco_time:
+  room: bedroom
+  name: disco time
+
+# Switches #
+switch.chester:
+  name: chester
+  room: lounge
+switch.stereo:
+  name: stereo
+  room: lounge
+switch.coffee:
+  name: coffee
+  room: kitchen
+switch.dishwasher:
+  name: dishwasher
+  room: kitchen
+switch.kitchen_motion_sensor:
+  name: kitchen motion
+  room: kitchen
+switch.ac:
+  name: air conditioner
+  room: lounge
+switch.dryer:
+  name: dryer
+  room: bathroom
+switch.washer:
+  name: washing machine
+  room: bathroom

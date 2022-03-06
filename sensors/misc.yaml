@@ -47,10 +47,11 @@
   - platform: greenely
     email: !secret greenely_email
     password: !secret greenely_password
-    usage: false
+    usage: true
     prices: true
-    usage_days: 14
     show_hourly: true
+    time_format: '%Y-%m-%dT%H:%M'
+    date_format: '%Y-%m-%d'
 
   - platform: aarlo
     monitored_conditions:
@@ -70,8 +71,7 @@
 #  - platform: miflora
 #    mac: 'C4:7C:8D:6A:9D:CC'
 #    name: kitty plant
-#    force_update: true
-#    #median: 1
+#    median: 2
 #    monitored_conditions:
 #      - moisture
 #      - light
@@ -89,12 +89,4 @@
 #https://github.com/custom-components/authenticated
   - platform: authenticated
     enable_notification: false
-
-#https://github.com/ljmerza/ha-email-sensor
-  #- platform: email
-  #  email: !secret carolin_email
-  #  password: !secret carolin_email_password 
-  #- platform: email
-  #  email: !secret secondary_email
-  #  password: !secret secondary_email_password
     

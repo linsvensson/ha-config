@@ -7,12 +7,15 @@
 #https://www.home-assistant.io/components/group/
 default_lights:
   - group.window_lights
+  - light.disco_time
   - group.bedroom_cozy
+  - light.floalt
+  - switch.showcase_light
+  - switch.couch_time
   
 bedroom_lights:
    - group.bedroom_cozy
    - group.bedroom_balls
-   - light.disco_time
    - light.old_greg
    
 all_lights:
@@ -20,27 +23,17 @@ all_lights:
    - light.floalt
    - light.kitchen_table
    - group.bedroom_lights
-   - group.bedroom_lights
-   - group.kitchen_spotlight
+   - light.kitchen_spotlight
    - group.window_lights
-   - group.couch_time
-   - group.lounge_spotlight
-  
-kitchen_spotlight:
-  - light.kitchen_left
-  - light.kitchen_mid
-  - light.kitchen_right
-  
-lounge_spotlight:
-  - light.spotlight_0
-  - light.spotlight_1
-  - light.spotlight_2
+   - switch.couch_time
+   - light.lounge_spotlight
+   - light.disco_time
+   - switch.showcase_light
 
 bedroom_cozy:
   - light.bookcase
   - light.bedside
   - light.old_greg
-  - light.disco_time
   
 bedroom_balls:
   - light.ball_pink
@@ -48,16 +41,12 @@ bedroom_balls:
   - light.ball_yellow
   
 window_lights:
-  - switch.kitchen_window
+  - switch.lounge_window_left
   - switch.lounge_window
   
 home_presence:
   - person.carolin
   - person.will
-  
-couch_time:
-  - switch.tv_lights
-  - switch.vase_light
   
 tv:
   - switch.chester

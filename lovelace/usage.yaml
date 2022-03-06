@@ -1,0 +1,62 @@
+
+####################################################
+#                                                  #
+#                     USAGE                        #
+#                                                  #
+####################################################
+
+title: Usage
+path: usage
+icon: mdi:history
+panel: true
+cards:
+  - type: custom:apexcharts-card
+    header:
+      title: Förbrukning/timme & elpris
+      show: true
+    graph_span: 25h
+    span:
+      start: day
+      offset: '-1d'
+    yaxis:
+      - id: first
+        apex_config:
+          tickAmount: 10
+        min: 0
+        max: 2
+      - id: second
+        opposite: true
+        apex_config:
+          tickAmount: 5
+        min: 0
+        decimals: 0
+    apex_config:
+      dataLabels:
+        enabled: false
+      stroke:
+        width: 4
+    series:
+      - entity: sensor.greenely_usage
+        name: Förbrukning
+        yaxis_id: first
+        type: column
+        color: red
+        extend_to_end: false
+        show:
+          legend_value: false
+        data_generator: |
+          return entity.attributes.hourly.map((entry) => {
+            return [new Date(entry.time), entry.usage];
+          }); 
+      - entity: sensor.greenely_prices
+        data_generator: |
+          return entity.attributes.previous_day.map((entry) => {
+            return [new Date(entry.date + 'T' + entry.time), entry.price];
+          }); 
+        yaxis_id: second
+        type: line
+        color: blue
+        name: Elpris
+        show:
+          legend_value: false
+        extend_to_end: false

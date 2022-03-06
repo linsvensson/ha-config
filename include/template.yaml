@@ -1,0 +1,104 @@
+template:
+    ####################################################
+    #                                                  #
+    #                      SENSOR                      #
+    #                                                  #
+    ####################################################
+
+  - sensor:
+      - unique_id: sidebar
+        state: template
+        attributes:
+          time: >
+            {% set hours = now().strftime('%H') %}
+            {% set minutes = now().strftime('%M') %}
+            <span class="time">
+              {{ hours }}<span class="time-colon">:</span>{{ minutes }}
+            </span>
+          date: >
+            <font color='#6a7377'><b>
+            {% if strptime(states('sensor.date'), '%Y-%m-%d').day != null %}
+            {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+            {% set months = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'] %}
+              {{ days[now().weekday()] }}<br>
+              {{ strptime(states('sensor.date'), '%Y-%m-%d').day }} {{ months[now().month-1] }}
+            {% endif %}
+            </b></font>
+          greet: >
+            <b>
+            {% set time = now().hour %}
+            {% if time <= 1 %} Good night {{'\U0001F611'}}
+            {% elif time <= 3 %} Good night {{'\U0001F62A'}}
+            {% elif time <= 5 %} Good night {{'\U0001F634'}}
+            {% elif time <= 7 %} Good morning {{'\U0001F4A9'}}
+            {% elif time <= 9 %} Good morning {{'\u2615\uFE0F'}}
+            {% elif time <= 10 %} Good morning {{'\U0001F642'}}
+            {% elif time <= 13 %} Good day {{'\U0001F60A'}}
+            {% elif time <= 15 %} Good day {{'\U0001F60E'}}
+            {% elif time <= 17 %} Good day {{'\U0001F44B\U0001F3FB'}}
+            {% elif time <= 19 %} Good evening {{'\U0001F44B\U0001F3FB'}}
+            {% elif time <= 22 %} Good evening {{'\U0001F60C'}}
+            {% elif time <= 23 %} Good evening {{'\U0001F974'}}
+            {% else %} Good evening {{'\U0001F974'}}
+            {% endif %}
+            </b>
+          active: >
+            <b>
+            <font color="#E50000">
+            {% if states('sensor.fountain_days') | float >= 7 %} <b>{{'\u26A0'}} The water fountain needs cleaning</b>
+            {% endif %}<br>
+            {% if states('sensor.bathroom_litterbox_days') | float >= 28 %} <b>{{'\u26A0'}} The bathroom litterbox needs cleaning</b>
+            {% endif %}<br>
+            {% if states('sensor.left_litterbox_days') | float >= 14 %} <b>{{'\u26A0'}} The left litterbox needs cleaning</b>
+            {% endif %}<br>
+            {% if states('sensor.right_litterbox_days') | float >= 14 %} <b>{{'\u26A0'}} The right litterbox needs cleaning</b>
+            {% endif %}
+            </font>
+            </b>
+          weather: >
+            {% set temperature = states('sensor.dark_sky_temperature') %}
+            {% set apparent = states('sensor.dark_sky_apparent_temperature') | round %}
+            {% set precip = states('sensor.dark_sky_precip_probability') | round %}
+            {% if not is_state('sensor.dark_sky_temperature', 'unknown') %}
+              {% if temperature | float(default=0) <= 0.0 %}
+                Feels like {{ apparent }}° with {{ precip }}% chance of snow {{'\u2744\uFE0F'}}
+              {% elif temperature | float(default=0) > 0.0 %}
+                Feels like {{ apparent}}° with {{ precip }}% chance of rain {{ '\u2614\uFE0F' if precip > 30 }}
+              {% endif %}
+            {% else %}
+              Couldn't fetch weather information...
+            {% endif %}
+
+      - unique_id: hass_version
+        state: >
+          {{ 'Latest' if states('sensor.installed_version_2') ==
+          states('sensor.latest_available_version_2') else states('sensor.latest_available_version_2') }}
+        attributes:
+          friendly_name: >
+            Installed {{ states('sensor.installed_version_2') }}
+          icon: mdi:home-assistant
+          
+      - unique_id: fullykiosk_storage
+        icon: mdi:sd
+        unit_of_measurement: '%'
+        state: >
+          {% set FreeSpace = states('sensor.lenovo_tab_m10_internal_storage_free_space') | float(default=0) %}
+          {% set TotalSpace = states('sensor.lenovo_tab_m10_internal_storage_total_space') | float(default=0) %}
+          {% if not (FreeSpace == 0.0 or TotalSpace == 0.0) %}
+            {{ 100 - (FreeSpace / TotalSpace * 100) | int(default=0) }}
+          {% endif %}
+        attributes:
+          friendly_name: Storage
+  
+      - unique_id: fullykiosk_memory
+        icon: mdi:memory
+        unit_of_measurement: '%'
+        state: >
+          {% set FreeMemory = states('sensor.lenovo_tab_m10_ram_free_memory') | float(default=0) %}
+          {% set TotalMemory = states('sensor.lenovo_tab_m10_ram_total_memory') | float(default=0) %}
+          {% if not (FreeMemory == 0.0 or TotalMemory == 0.0) %}
+            {{ 100 - (FreeMemory / TotalMemory * 100) | int(default=0) }}
+          {% endif %}
+        attributes:
+          friendly_name: Memory
