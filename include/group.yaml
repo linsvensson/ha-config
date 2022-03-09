@@ -1,0 +1,52 @@
+group:
+  default_lights:
+    - group.window_lights
+    - light.disco_time
+    - group.bedroom_cozy
+    - light.floalt
+    - switch.showcase_light
+    - switch.couch_time
+    
+  bedroom_lights:
+     - group.bedroom_cozy
+     - group.bedroom_balls
+     - light.old_greg
+     
+  all_lights:
+     - light.hallway
+     - light.floalt
+     - light.kitchen_table
+     - group.bedroom_lights
+     - light.kitchen_spotlight
+     - group.window_lights
+     - switch.couch_time
+     - light.lounge_spotlight
+     - light.disco_time
+     - switch.showcase_light
+  
+  bedroom_cozy:
+    - light.bookcase
+    - light.bedside
+    - light.old_greg
+    
+  bedroom_balls:
+    - light.ball_pink
+    - light.ball_green
+    - light.ball_yellow
+    
+  window_lights:
+    - switch.lounge_window_left
+    - switch.lounge_window
+    
+  home_presence:
+    - person.carolin
+    - person.will
+    
+  tv:
+    - switch.chester
+    - switch.stereo
+    
+  windows:
+    - binary_sensor.kitchen_window
+    - binary_sensor.lounge_window
+    - binary_sensor.bedroom_window

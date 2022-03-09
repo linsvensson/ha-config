@@ -9,8 +9,8 @@ path: lights
 icon: mdi:lightbulb-on-outline
 type: custom:vertical-layout
 cards:
-  - type: 'custom:text-divider-row'
-    text: Hallway
+  - type: custom:mushroom-title-card
+    title: Hallway
   - type: horizontal-stack
     cards:
       - type: vertical-stack
@@ -41,21 +41,17 @@ cards:
       - type: custom:button-card
         entity: 'input_boolean.motion_hallway'
         icon: 'mdi:ghost'
-        color: var(--light-primary-color)
+        color: var(--primary-color)
         name: motion
         styles:
           icon:
             - color: >
                 [[[
-                  if (entity.state == 'on') return 'var(--light-primary-color)';
+                  if (entity.state == 'on') return 'var(--primary-color)';
                   else return 'var(--white)';
                 ]]]
-        style: |
-          ha-card {
-            font-family: 'SF Display', sans-serif !important;
-          }
-  - type: 'custom:text-divider-row'
-    text: Kitchen
+  - type: custom:mushroom-title-card
+    title: Kitchen
   - type: horizontal-stack
     cards:
       - type: vertical-stack
@@ -111,21 +107,17 @@ cards:
       - type: custom:button-card
         entity: 'switch.kitchen_motion_sensor'
         icon: 'mdi:ghost'
-        color: var(--light-primary-color)
+        color: var(--primary-color)
         name: motion
         styles:
           icon:
             - color: >
                 [[[
-                  if (entity.state == 'on') return 'var(--light-primary-color)';
+                  if (entity.state == 'on') return 'var(--primary-color)';
                   else return 'var(--white)';
                 ]]]
-        style: |
-          ha-card {
-            font-family: 'SF Display', sans-serif !important;
-          }
-  - type: 'custom:text-divider-row'
-    text: Lounge
+  - type: custom:mushroom-title-card
+    title: Lounge
   - type: horizontal-stack
     cards:
       - type: custom:button-card
@@ -316,8 +308,8 @@ cards:
           name:
             - font-weight: bold
             - font-size: 14px
-  - type: 'custom:text-divider-row'
-    text: Bedroom
+  - type: custom:mushroom-title-card
+    title: Bedroom
   - type: horizontal-stack
     cards:
       - type: "custom:button-card"

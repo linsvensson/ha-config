@@ -1,0 +1,8 @@
+counter:
+  
+  coffee_counter:
+    name: Total cups brewed
+    icon: mdi:coffee
+  coffee_counter_daily:
+    name: Cups brewed today
+    icon: mdi:coffee

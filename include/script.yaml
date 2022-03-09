@@ -1,0 +1,119 @@
+script:
+  
+  timed_hallway:
+    alias: Turn on light and set timer
+    sequence:
+    - service: script.turn_off
+      data:
+        entity_id: script.hallway_off
+    - service: light.turn_on
+      data:
+        entity_id: light.hallway
+  hallway_off:
+    alias: Turn off light after 2 minutes
+    sequence:
+    - delay:
+        minutes: 2
+    - service: light.turn_off
+      data:
+        entity_id: light.hallway
+  ac_power:
+    sequence:
+    - service: remote.send_command
+      target:
+        entity_id: remote.broadlink
+      data:
+        device: broadlink
+        command: b64:JgBQAAABI5UVEhQSFBIUEhURFREVERU1FDcVNRQ3EzcSORI4EjgUExMTExMTNxI4FDcTExMTEjkSOBI4EhQTExMVETgSOBIWEQAFAQABKUoSAA0FAAAAAAAAAAA=
+  ac_swing:
+    sequence:
+    - service: remote.send_command
+      target:
+        entity_id: remote.broadlink
+      data:
+        device: broadlink
+        command: b64:JgBYAAABJJMSFBIUEhQSFBIUEhQTExM4EjgSORI4EjgTOBI4EjgTExMUEjgSFBIUEjgTExMTEzgSOBMUETkSOBIUEjgTOBIUEgAE/wABKkkSAAxPAAEoSxIADQU=
+  ac_silence:
+    sequence:
+    - service: remote.send_command
+      target:
+        entity_id: remote.broadlink
+      data:
+        device: broadlink
+        command: b64:JgBMABUSFBIUEhQSFBIVERURFTYUNhU2FDYVNhQ2FTYVNRUSFDYUNhUSFDYVNhQSFBIUNhUSFBIUNhURFREVNhQ2FRIUAAUAAAErSRQADQUAAAAAAAAAAAAAAAA=
+  store_litterbox_left_last_cleaned:
+    alias: Left litterbox last cleaned
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.litterbox_left_last_cleaned
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  store_litterbox_bathroom_last_cleaned:
+    alias: Bathroom litterbox last cleaned
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.litterbox_bathroom_last_cleaned
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  store_litterbox_right_last_cleaned:
+    alias: Right litterbox last cleaned
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.litterbox_right_last_cleaned
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  store_fountain_last_cleaned:
+    alias: Fountain last cleaned
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.fountain_last_cleaned
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  store_fountain_filter_last_changed:
+    alias: Fountain filter last changed
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.fountain_filter_last_changed
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  current_electricity_price:
+    alias: Current electricity price
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_electricity_price
+    mode: single
+  bedroom_temp:
+    alias: Current bedroom temperature
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_bedroom_temp
+    mode: single
+  lounge_temp:
+    alias: Current lounge temperature
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_lounge_temp_2
+    mode: single
+  electricity_today:
+    alias: Check if it's cheap today
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_electricity_today
+    mode: single
+  dinner_ready:
+    alias: Tell Will that dinner is ready
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_dinner_ready
+    mode: single
+  

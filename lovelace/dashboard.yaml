@@ -102,10 +102,9 @@ cards:
                   - state:
                       - value: 'off'
                         icon: mdi:door-closed
-                        color: rgb(152,251,152)
                       - value: 'on'
                         icon: mdi:door-open
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
@@ -116,24 +115,22 @@ cards:
                   - state:
                       - value: 'off'
                         icon: mdi:sleep
-                        color: rgb(152,251,152)
                       - value: 'on'
                         icon: mdi:motion-sensor
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
-                  - entity: switch.kitchen_motion_sensor
+                  - entity: binary_sensor.kitchen_motion
                   - name: kitchen
                   - show_name: true
                   - show_state: false
                   - state:
                       - value: 'off'
                         icon: mdi:sleep
-                        color: rgb(152,251,152)
                       - value: 'on'
                         icon: mdi:motion-sensor
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
           - type: horizontal-stack
             cards:
               - type: custom:decluttering-card
@@ -146,22 +143,21 @@ cards:
                   - state:
                       - value: 'off'
                         icon: mdi:window-closed
-                        color: rgb(152,251,152)
                       - value: 'on'
                         icon: mdi:window-open
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
-                  - entity: sensor.lounge_window
+                  - entity: sensor.template_lounge_window
                   - name: lounge
                   - show_name: true
                   - show_state: false
                   - state:
                       - value: 'closed'
-                        color: rgb(152,251,152)
+                        icon: mdi:window-closed
                       - value: 'open'
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
@@ -172,10 +168,9 @@ cards:
                   - state:
                       - value: 'off'
                         icon: mdi:window-closed
-                        color: rgb(152,251,152)
                       - value: 'on'
                         icon: mdi:window-open
-                        color: rgb(255,69,0)
+                        color: var(--orange-red-color)
             
       - type: custom:vertical-stack-in-card
         style: |
@@ -200,15 +195,14 @@ cards:
                      - value: 'False'
                        icon: mdi:dishwasher
                        label: 'off'
-                       color: "#BAC0C6"
+                       color: var(--orange-red-color)
                      - value: 'idle'
                        label: 'idle'
                        icon: mdi:dishwasher
-                       color: rgb(152,251,152)
                      - value: 'running'
                        label: 'running'
                        icon: mdi:dishwasher
-                       color: "#FFA500"
+                       color: var(--orange-color)
                        
               - type: custom:decluttering-card
                 template: nest_button
@@ -223,16 +217,15 @@ cards:
                   - state:
                      - value: 'False'
                        icon: mdi:washing-machine
-                       color: "#BAC0C6"
+                       color: var(--orange-red-color)
                        label: 'off'
                      - value: 'idle'
                        label: 'idle'
                        icon: mdi:washing-machine
-                       color: rgb(152,251,152)
                      - value: 'running'
                        label: 'running'
                        icon: mdi:washing-machine
-                       color: "#FFA500"
+                       color: var(--orange-color)
                 
               - type: custom:decluttering-card
                 template: nest_button
@@ -249,21 +242,20 @@ cards:
                   - state:
                      - value: 'False'
                        icon: mdi:tumble-dryer
-                       color: "#BAC0C6"
+                       color: var(--orange-red-color)
                        label: 'off'
                      - value: 'idle'
                        label: 'idle'
                        icon: mdi:tumble-dryer
-                       color: rgb(152,251,152)
                      - value: 'running'
                        label: 'running'
                        icon: mdi:tumble-dryer
-                       color: "#FFA500"
+                       color: var(--orange-color)
                   
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
-                  - entity: sensor.ac_power
+                  - entity: sensor.template_ac_power
                   - show_label: true
                   - show_name: false
                   - show_state: false
@@ -273,12 +265,12 @@ cards:
                   - state:
                       - value: 'off'
                         icon: mdi:air-conditioner
-                        color: "#BAC0C6"
+                        color: var(--orange-red-color)
                         label: 'off'
                       - value: 'on'
                         label: 'on'
                         icon: mdi:air-conditioner
-                        color: "#FFA500"
+                        color: var(--orange-color)
                 
           - type: horizontal-stack
             cards:
@@ -296,15 +288,14 @@ cards:
                       - value: 'False'
                         icon: mdi:coffee
                         label: 'off'
-                        color: "#BAC0C6"
+                        color: var(--orange-red-color)
                       - value: 'idle'
                         icon: mdi:coffee
                         label: 'idle'
-                        color: rgb(152,251,152)
                       - value: 'brewing'
                         label: 'brewing'
                         icon: mdi:coffee
-                        color: "#FFA500"
+                        color: var(--orange-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
@@ -315,15 +306,15 @@ cards:
                       - value: 'off'
                         icon: mdi:kettle
                         label: 'off'
-                        color: "#BAC0C6"
+                        color: var(--orange-red-color)
                       - value: 'on'
                         icon: mdi:kettle
                         label: 'idle'
-                        color: rgb(152,251,152)
+                        color: var()--state-icon-color)
                       - value: 'boiling'
                         label: 'boiling'
                         icon: mdi:kettle
-                        color: "#FFA500"
+                        color: var(--orange-color)
               - type: custom:decluttering-card
                 template: nest_button
                 variables:
@@ -336,14 +327,13 @@ cards:
                       - value: 'off'
                         label: 'off'
                         icon: mdi:television
-                        color: "#BAC0C6"
                       - value: 'on'
                         label: 'on'
                         icon: mdi:television
-                        color: "#FFA500"
+                        color: var(--orange-color)
       - type: "custom:atomic-calendar"
         showProgressBar: true
-        maxDaysToShow: 30
+        maxDaysToShow: 20
         entities:
         - entity: calendar.thepinkkiller_gmail_com
           color: pink
@@ -616,7 +606,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            entity: sensor.bathroom_litterbox_days
+            entity: sensor.template_bathroom_litterbox_days
             name: bath
             icon: mdi:emoticon-poop
             show_state: true
@@ -659,7 +649,7 @@ cards:
                     else return 'rgb(255,69,0)';
                    ]]]
           - type: custom:button-card
-            entity: sensor.left_litterbox_days
+            entity: sensor.template_left_litterbox_days
             name: left
             icon: mdi:emoticon-poop
             show_state: true
@@ -702,7 +692,7 @@ cards:
                      else return 'rgb(255,69,0)';
                    ]]]
           - type: custom:button-card
-            entity: sensor.right_litterbox_days
+            entity: sensor.template_right_litterbox_days
             name: right
             icon: mdi:emoticon-poop
             show_state: true
@@ -747,7 +737,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            entity: sensor.fountain_days
+            entity: sensor.template_fountain_days
             name: cleaned
             icon: mdi:fountain
             show_state: true
@@ -790,7 +780,7 @@ cards:
                     else return 'rgb(255,69,0)';
                    ]]]
           - type: custom:button-card
-            entity: sensor.fountain_filter_days
+            entity: sensor.template_fountain_filter_days
             name: filter
             icon: mdi:fountain
             show_state: true
@@ -916,25 +906,25 @@ cards:
           - type: custom:button-card
             entity: 'input_boolean.motion_kitchen'
             icon: 'mdi:ghost'
-            color: var(--light-primary-color)
+            color: var(--primary-color)
             name: kitchen
             styles:
               icon:
                 - color: >
                     [[[
-                      if (entity.state == 'on') return 'var(--light-primary-color)';
+                      if (entity.state == 'on') return 'var(--primary-color)';
                       else return 'var(--white)';
                     ]]]
           - type: custom:button-card
             entity: 'input_boolean.motion_hallway'
             icon: 'mdi:ghost'
-            color: var(--light-primary-color)
+            color: var(--primary-color)
             name: hallway
             styles:
               icon:
                 - color: >
                     [[[
-                      if (entity.state == 'on') return 'var(--light-primary-color)';
+                      if (entity.state == 'on') return 'var(--primary-color)';
                       else return 'var(--white)';
                     ]]]
                     

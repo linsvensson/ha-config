@@ -7,7 +7,7 @@
 #https://home-assistant.io/docs/configuration/basic/
 homeassistant:
   name: Home
-  external_url: https://mingleberries.duckdns.org
+  external_url: !secret external_url
   internal_url: http://192.168.1.141:8123
   latitude: !secret zone_home_latitude
   longitude: !secret zone_home_longitude
@@ -16,7 +16,6 @@ homeassistant:
   currency: SEK
   time_zone: Europe/Stockholm
   packages: !include_dir_named include
-  customize: !include customize.yaml
   allowlist_external_dirs:
     - /config/
 
@@ -46,8 +45,6 @@ browser_mod:
       name: paddington
 
 http:
-  #ip_ban_enabled: true
-  #login_attempts_threshold: 6
   ssl_certificate: ssl/fullchain.pem
   ssl_key: ssl/privkey.pem
   cors_allowed_origins:
@@ -151,20 +148,6 @@ google_assistant:
     client_email: !secret service_account_client_email
   entity_config: !include google_assistant.yaml
   expose_by_default: false
-      
-#https://www.home-assistant.io/components/samsungtv/
-#samsungtv:
-#  host: 192.168.1.136
-  
-#https://github.com/roberodin/ha-samsungtv-custom
-#media_player:
-#  - platform: samsungtv_custom
-#    host: 192.168.1.136
-#    mac: D0:03:DF:FA:A4:DE
-#    port: 8002
-#    protocol: ctl_qled
-#    applist: "YouTube, Viaplay, Plex, Netflix, Spotify"
-#    name: Chester
   
 influxdb:
   host: 127.0.0.1
@@ -174,15 +157,7 @@ influxdb:
   password: !secret influxdb_password
   max_retries: 3
   default_measurement: state
-    
-counter:
-  coffee_counter:
-    name: Total cups brewed
-    icon: mdi:coffee
-  coffee_counter_daily:
-    name: Cups brewed today
-    icon: mdi:coffee
-    
+
 #plant:
 #  kitty_plant:
 #    sensors:
@@ -192,19 +167,6 @@ counter:
 #        conductivity: sensor.kitty_plant_conductivity
 #        brightness: sensor.kitty_plant_light_intensity
 #    min_moisture: 20
- 
-#https://www.home-assistant.io/integrations/asuswrt/
-#asuswrt:
-#  host: 192.168.1.1
-#  username: admin
-#  password: !secret egon_password
-#  protocol: ssh
-#  port: 22
-#  sensors:
-#    - upload
-#    - download
-#    - upload_speed
-#    - download_speed
   
 ####################################################
 #                                                  #
@@ -225,13 +187,6 @@ alarm_control_panel:
     home_mode_name: home
     away_mode_name: armed
 
-binary_sensor:
-  - platform: aarlo
-    monitored_conditions:
-    - motion
-    - sound
-    - ding
-
 ####################################################
 #                                                  #
 #      LINKS TO INDIVIDUAL CONFIGURATION FILES     #
@@ -239,18 +194,6 @@ binary_sensor:
 ####################################################
 
 #https://home-assistant.io/docs/configuration/splitting_configuration/
-input_datetime: !include input_datetime.yaml
-input_text: !include input_text.yaml
-input_boolean: !include input_boolean.yaml
-input_select: !include input_select.yaml
-zone: !include zones.yaml
-notify: !include notification.yaml
-group: !include groups.yaml
-sensor: !include_dir_merge_list sensors/
-script: !include scripts.yaml
-device_tracker: !include device_tracker.yaml
-switch: !include switches.yaml
-light: !include lights.yaml
 frontend:
   themes: !include_dir_merge_named themes
   extra_module_url:

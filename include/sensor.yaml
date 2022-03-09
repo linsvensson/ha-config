@@ -1,0 +1,147 @@
+sensor:
+
+  - platform: time_date
+    display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+
+  - platform: cert_expiry
+    host: home-assistant.io
+    
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /home
+      - type: memory_use_percent
+      - type: processor_use
+      - type: last_boot
+    scan_interval: 120
+
+  - platform: greenely
+    email: !secret greenely_email
+    password: !secret greenely_password
+    usage: true
+    prices: true
+    show_hourly: true
+    time_format: '%Y-%m-%dT%H:%M'
+    date_format: '%Y-%m-%d'
+
+  - platform: aarlo
+    monitored_conditions:
+    - last_capture
+    - total_cameras
+    - battery_level
+    - captured_today
+    - signal_strength
+
+#  - platform: miflora
+#    mac: 'C4:7C:8D:6A:9D:CC'
+#    name: kitty plant
+#    median: 2
+#    monitored_conditions:
+#      - moisture
+#      - light
+#      - temperature
+#      - conductivity
+#      - battery
+
+  #- platform: plex_recently_added
+  #  host: 192.168.1.141
+  #  token: !secret plex_token
+  #  
+  #- platform: spotcast
+    
+  - platform: authenticated
+    enable_notification: false
+
+    ####################################################
+    #                                                  #
+    #                   FILE SIZE                      #
+    #                                                  #
+    ####################################################
+
+  - platform: filesize
+    file_paths:
+      - /config/home-assistant.log
+      - /config/home-assistant_v2.db
+
+    ####################################################
+    #                                                  #
+    #                   COMMAND LINE                   #
+    #                                                  #
+    ####################################################
+
+  - platform: command_line
+    name: badlogin
+    command: "grep -c 'Login attempt' /config/home-assistant.log"
+    value_template: '{{ value | int - 1 }}'
+    
+    ####################################################
+    #                                                  #
+    #                     VERSION                      #
+    #                                                  #
+    ####################################################
+    
+  - platform: version
+    name: Installed Version
+    
+  - platform: version
+    name: Latest Available Version
+    beta: false
+    image: default
+    source: docker
+    
+    ####################################################
+    #                                                  #
+    #                       MQTT                       #
+    #                                                  #
+    ####################################################
+
+  - platform: mqtt
+    name: "vally cpu temp"
+    value_template: "{{ value_json.temp }}"
+    state_topic: "vally/sensor/cputemp"
+    unit_of_measurement: '°C'
+    icon: mdi:thermometer
+    
+    ####################################################
+    #                                                  #
+    #                      DARKSKY                     #
+    #                                                  #
+    ####################################################
+    
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forecast:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    monitored_conditions:
+      - icon
+      - summary
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      - humidity
+      - temperature
+      - temperature_high
+      - temperature_low
+      - apparent_temperature
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - wind_speed
+      - wind_bearing
+      - precip_type
+      - precip_probability
+      - precip_accumulation
+      - precip_intensity
+      - precip_intensity_max
+      - uv_index
+      - daily_summary
+      - pressure
+      - visibility
+    scan_interval:
+      minutes: 30

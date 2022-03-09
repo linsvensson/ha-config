@@ -28,14 +28,6 @@ cards:
             style: |
               ha-card {
                 margin-top: 20px; !important;
-                font-family: 'Open Sans', sans-serif;
-              }
-          - type: 'custom:text-divider-row'
-            text: Prices
-            style: |
-              ha-card {
-                height: 20px !important;
-                font-family: 'Open Sans', sans-serif !important;
               }
           - type: custom:vertical-stack-in-card
             cards:

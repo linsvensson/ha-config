@@ -1,4 +1,5 @@
 template:
+
     ####################################################
     #                                                  #
     #                      SENSOR                      #
@@ -102,3 +103,92 @@ template:
           {% endif %}
         attributes:
           friendly_name: Memory
+          
+      - unique_id: washer
+        icon: mdi:washing-machine
+        state: >
+          {% set status = states('switch.washer') %}
+          {% set power = states('sensor.node_2_electric_consumed_w') | int(0) %}
+          {% if status == 'on' %}
+            {{ 'running' if power > 2 else 'idle' }}
+          {% else %}
+            off
+          {% endif %}
+          
+      - unique_id: dryer
+        icon: mdi:tumble-dryer
+        state: >
+          {% set status = states('switch.dryer_current_value') %}
+          {% set power = states('sensor.dryer_electric_consumed_w') | int(0) %}
+          {% if status == 'on' %}
+            {{ 'running' if power > 2 else 'idle' }}
+          {% else %}
+            off
+          {% endif %}
+          
+      - unique_id: ac_power
+        icon: mdi:fan
+        state: >
+          {% set power = states('sensor.ac_electric_consumed_w') | int(0) %}
+          {{ 'on' if power > 2 else 'off' }}
+          
+      - unique_id: lounge_window
+        icon: >
+          {% if is_state('binary_sensor.binary_sensor.lounge_window_0', 'on')
+             or is_state('binary_sensor.lounge_window_1', 'on') %}
+             mdi:window-open
+          {% else %}
+             mdi:window-closed
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.lounge_window_0', 'on')
+             or is_state('binary_sensor.lounge_window_1', 'on') %}
+             open
+          {% else %}
+             closed
+          {% endif %}
+          
+      - unique_id: vally_uptime
+        icon: mdi:clock
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('sensor.last_boot')) %}
+          {% set days = (time_diff // (60 * 60 * 24)) | int(0) %}
+          {% set weeks = (days // 7) | int(0) %}
+          {% set hours = (time_diff // (60 * 60)) | int(0) %}
+          {% set hours =  hours - days * 24 %}
+          {% set minutes = (time_diff // 60) | int(0) %}
+          {% set minutes = minutes - (days * 24 * 60) - (hours * 60) %}
+          {% set days = (days | int(0)) - (weeks * 7) %}
+          {% macro phrase(value, name) %}
+          {%- set value = value | int(0) %}
+          {%- set end = 's' if value > 1 else '' %}
+          {{- '{} {}{}'.format(value, name, end) if value | int(0) > 0 else '' }}
+          {%- endmacro %}          
+          {% set text = [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min') ] | select('!=','') | list | join(', ') %}
+          {{ text }}
+          
+      - unique_id: fountain_filter_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.fountain_filter_last_changed')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
+      - unique_id: fountain_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.fountain_last_cleaned')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
+      - unique_id: left_litterbox_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_left_last_cleaned')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
+      - unique_id: right_litterbox_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_right_last_cleaned')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
+      - unique_id: bathroom_litterbox_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_bathroom_last_cleaned')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          

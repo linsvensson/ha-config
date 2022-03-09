@@ -1,0 +1,7 @@
+binary_sensor:
+
+  - platform: aarlo
+    monitored_conditions:
+    - motion
+    - sound
+    - ding

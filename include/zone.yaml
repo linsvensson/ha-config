@@ -1,0 +1,36 @@
+zone:
+  - name: Home
+    latitude: !secret zone_home_latitude   
+    longitude: !secret zone_home_longitude
+    radius: 25
+    icon: mdi:home-heart
+  
+  - name: Mum & Tommy's
+    latitude: !secret zone_mumandtommy_latitude   
+    longitude: !secret zone_mumandtommy_longitude
+    radius: 30
+    icon: mdi:home-heart
+    
+  - name: Sis
+    latitude: !secret zone_sis_latitude   
+    longitude: !secret zone_sis_longitude
+    radius: 30
+    icon: mdi:home-heart
+  
+  - name: Willys
+    latitude: !secret zone_willys_latitude
+    longitude: !secret zone_willys_longitude
+    radius: 25
+    icon: mdi:basket
+  
+  - name: Citygross
+    latitude: !secret zone_citygross_latitude
+    longitude: !secret zone_citygross_longitude
+    radius: 35
+    icon: mdi:basket
+  
+  - name: Cinema
+    latitude: !secret zone_cinema_latitude
+    longitude: !secret zone_cinema_longitude
+    radius: 10
+    icon: mdi:theater

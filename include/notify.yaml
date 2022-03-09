@@ -1,0 +1,27 @@
+notify:
+  #https://home-assistant.io/components/notify/
+
+  ####################################################
+  #                                                  #
+  #                NOTIFICATIONS                     #
+  #                                                  #
+  ####################################################
+  
+  #https://www.home-assistant.io/components/notify.discord/
+    - name: discord
+      platform: discord
+      token: !secret discord_bot_token
+  
+    - name: mingleberries
+      platform: group
+      services:
+        - service: discord
+          data:
+            target: 556171506044895245
+  
+    - name: mingleberries_status
+      platform: group
+      services:
+        - service: discord
+          data:
+            target: 556239716714938387

@@ -113,7 +113,7 @@ cards:
                           service: homeassistant.update_entity
                           service_data:
                             entity_id: sensor.disk_use_percent_home
-                  - entity: sensor.vally_uptime
+                  - entity: sensor.template_vally_uptime
                     icon: mdi:clock
                     name: Uptime
           - type: custom:layout-break
