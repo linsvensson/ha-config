@@ -8,7 +8,6 @@
 
   settings:
     variables:
-      entity_tablet: switch.lenovo_tab_m10_screensaver
       entity_browser_mod: media_player.browser_fb785be7_f75dc2fa
 
   #################################################

@@ -3,3 +3,6 @@
 
   nest_picture_button:
     !include nest_picture_button.yaml
+    
+  light_button:
+    !include light_button.yaml

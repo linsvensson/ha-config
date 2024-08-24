@@ -8,13 +8,12 @@
 title: Usage
 path: usage
 icon: mdi:history
-panel: true
 cards:
   - type: custom:apexcharts-card
     header:
       title: Förbrukning/timme & elpris
       show: true
-    graph_span: 25h
+    graph_span: 24h
     span:
       start: day
       offset: '-1d'
@@ -36,22 +35,21 @@ cards:
       stroke:
         width: 4
     series:
-      - entity: sensor.greenely_usage
+      - entity: sensor.greenely_hourly_usage
         name: Förbrukning
         yaxis_id: first
         type: column
         color: red
-        extend_to_end: false
         show:
           legend_value: false
         data_generator: |
-          return entity.attributes.hourly.map((entry) => {
-            return [new Date(entry.time), entry.usage];
+          return entity.attributes.data.map((entry, index) => {
+            return [new Date(entry.localtime), entry.usage];
           }); 
       - entity: sensor.greenely_prices
         data_generator: |
           return entity.attributes.previous_day.map((entry) => {
-            return [new Date(entry.date + 'T' + entry.time), entry.price];
+            return [new Date(entry.date + ' ' + entry.time), entry.price];
           }); 
         yaxis_id: second
         type: line
@@ -59,4 +57,17 @@ cards:
         name: Elpris
         show:
           legend_value: false
-        extend_to_end: false
+  - type: 'custom:flex-table-card'
+    title: Greenely Daily Usage
+    sort_by: date
+    entities:
+      include: sensor.greenely_daily_usage
+    columns:
+      - name: date
+        attr_as_list: data
+        modify: x.localtime
+        icon: mdi:calendar
+      - name: kWh
+        attr_as_list: data
+        modify: x.usage
+        icon: mdi:flash

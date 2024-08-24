@@ -1,0 +1,35 @@
+- id: '1683807847256'
+  name: Default lights
+  entities:
+    group.default_lights:
+      entity_id:
+      - group.window_lights
+      - light.disco_time
+      - light.groovy_time
+      - group.bedroom_cozy
+      - switch.showcase_light
+      - switch.couch_time
+      order: 0
+      friendly_name: default_lights
+      state: 'off'
+  icon: mdi:home-lightbulb
+  metadata:
+    group.default_lights:
+      entity_only: true
+- id: '1683807871994'
+  name: New Scene
+  entities:
+    group.default_lights:
+      entity_id:
+      - group.window_lights
+      - light.disco_time
+      - light.groovy_time
+      - group.bedroom_cozy
+      - switch.showcase_light
+      - switch.couch_time
+      order: 0
+      friendly_name: default_lights
+      state: 'off'
+  metadata:
+    group.default_lights:
+      entity_only: true

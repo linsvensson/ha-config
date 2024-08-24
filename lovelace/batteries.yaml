@@ -22,3 +22,5 @@ cards:
       - sensor.lounge_window_0_battery_level
       - sensor.lounge_window_1_battery_level
       - sensor.lumi_remote_b1acn01_battery_level
+      - sensor.kitty_plant_battery
+  

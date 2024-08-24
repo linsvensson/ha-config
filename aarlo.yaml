@@ -1,0 +1,4 @@
+version: 1
+aarlo:
+  mode_api: v2
+  backend: sse

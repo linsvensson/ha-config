@@ -7,13 +7,14 @@
 #https://home-assistant.io/docs/configuration/basic/
 homeassistant:
   name: Home
-  external_url: !secret external_url
-  internal_url: http://192.168.1.141:8123
+  #external_url: !secret external_url
+  internal_url: http://192.168.50.110:8123
   latitude: !secret zone_home_latitude
   longitude: !secret zone_home_longitude
   elevation: !secret zone_home_elevation
   unit_system: metric
   currency: SEK
+  country: SE
   time_zone: Europe/Stockholm
   packages: !include_dir_named include
   allowlist_external_dirs:
@@ -27,33 +28,34 @@ homeassistant:
 
 config:
 
+energy:
+
+backup:
+
 person:
 
 mobile_app:
 
-#https://www.home-assistant.io/integrations/spotify/
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
+media_source:
 
-browser_mod:
-  prefix: "browser_"
-  devices:
-    a370fd17_97edf076:
-      name: engelbrekt
-    fb785be7_f75dc2fa:
-      name: paddington
+cloud:
 
-http:
-  ssl_certificate: ssl/fullchain.pem
-  ssl_key: ssl/privkey.pem
-  cors_allowed_origins:
-    - https://google.com
-    - https://www.home-assistant.io
+my:
+
+#http:
+#  ssl_certificate: ssl/fullchain.pem
+#  ssl_key: ssl/privkey.pem
+#  cors_allowed_origins:
+#    - https://google.com
+#    - https://www.home-assistant.io
+#  use_x_forwarded_for: true
+#  trusted_proxies:
+#    - 10.0.0.200
+#    - 172.30.33.0/24
  
-duckdns:
-  domain: mingleberries
-  access_token: !secret duckdns_access_token
+#duckdns:
+#  domain: mingleberries
+#  access_token: !secret duckdns_access_token
 
 #https://www.home-assistant.io/lovelace/yaml-mode/
 lovelace:
@@ -68,13 +70,12 @@ zha:
 
 #https://home-assistant.io/components/logger/
 logger:
-  default: warning
+  default: error
   logs:
     homeassistant.core: error
     homeassistant.components.websocket_api: error
-    homeassistant.components.http: warning
-    homeassistant.components.http.ban: warning
     homeassistant.components.shell_command: fatal
+    custom_components.xiaomi_miio_fan: critical
 #    homeassistant.components.zwave: debug
 #    homeassistant.components.influxdb: debug
 #    custom_components.monitor_docker: debug
@@ -83,34 +84,40 @@ logger:
 #    miflora.miflora_poller: debug
 #    pydeconz: debug
 #    homeassistant.components.deconz: debug
-#    custom_components.greenely: debug
+    custom_components.greenely: error
   
 monitor_docker:
   - name: Docker
     containers:
       - home-assistant
       - node-red
-      - deconz
       - docker-influxdb-grafana
       - mqtt
       - bajzwave
       - valheim-server
-      - watchtower
+      - vrising-server
+      - minecraft
     rename:
       home-assistant: "Home Assistant"
-      deconz: DeCONZ
       node-red: "Node-RED"
       valheim-server: "Valheim Server"
+      vrising-server: "V Rising Server"
     monitored_conditions: [allinone]
     scan_interval: 120
+    
+#greenely:
+#  email: !secret greenely_email
+#  password: !secret greenely_password
+#  data:
+#    - prices
+#    - usage
+#  show_hourly: true
+#  hourly_offset_days: 1
+#  time_format: '%Y-%m-%dT%H:%M'
+#  date_format: '%Y-%m-%d'
 
 #https://www.home-assistant.io/components/system_health/
 system_health:
-
-#https://www.home-assistant.io/components/weather.darksky/
-weather:
-  - platform: darksky
-    api_key: !secret darksky_api_key
 
 #https://home-assistant.io/components/sun/
 sun:
@@ -122,11 +129,6 @@ recorder:
 #https://home-assistant.io/components/history/
 history:
 
-#https://www.home-assistant.io/components/calendar.google/
-google:
-  client_id: !secret carolin_email_id
-  client_secret: !secret carolin_email_secret
-
 #https://www.home-assistant.io/components/python_script/
 python_script:
 
@@ -137,17 +139,16 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
-    base_url: https://mingleberries.duckdns.org
 
 #https://www.home-assistant.io/components/google_assistant/
-google_assistant:
-  project_id: home-assistant-3a3c9
-  report_state: true
-  service_account:
-    private_key: !secret service_account_private_key
-    client_email: !secret service_account_client_email
-  entity_config: !include google_assistant.yaml
-  expose_by_default: false
+#google_assistant:
+#  project_id: home-assistant-3a3c9
+#  report_state: true
+#  service_account:
+#    private_key: !secret service_account_private_key
+#    client_email: !secret service_account_client_email
+#  entity_config: !include google_assistant.yaml
+#  expose_by_default: false
   
 influxdb:
   host: 127.0.0.1
@@ -158,6 +159,19 @@ influxdb:
   max_retries: 3
   default_measurement: state
 
+fan:
+  - platform: xiaomi_miio_fan
+    name: Pooh
+    host: 192.168.50.125
+    token: !secret pooh_token
+    model: dmaker.fan.p33
+    
+  - platform: xiaomi_miio_airpurifier
+    name: Mi Air Purifier 2S
+    host: 192.168.50.219
+    token: !secret purifier_token
+    model: zhimi.airpurifier.mc1
+
 #plant:
 #  kitty_plant:
 #    sensors:
@@ -167,25 +181,23 @@ influxdb:
 #        conductivity: sensor.kitty_plant_conductivity
 #        brightness: sensor.kitty_plant_light_intensity
 #    min_moisture: 20
-  
+    
 ####################################################
 #                                                  #
-#                      ARLO                        #
+#                       MQTT                       #
 #                                                  #
 ####################################################
-
-#https://github.com/twrecked/hass-aarlo
-aarlo:
-  username: !secret arlo_username
-  password: !secret arlo_password
-  refresh_devices_every: 2
-  stream_timeout: 120
-  mode_api: v2
-
-alarm_control_panel:
-  - platform: aarlo
-    home_mode_name: home
-    away_mode_name: armed
+    
+#mqtt:
+  #sensor:
+    #- name: "vally cpu temp"
+    #  value_template: "{{ value_json.temp }}"
+    #  state_topic: "vally/sensor/cputemp"
+    #  unit_of_measurement: '°C'
+    #  icon: mdi:thermometer
+    #- name: "kitty plant"
+    #  state_topic: "plantgw/plants/kittyplant/"
+    #  icon: mdi:sprout
 
 ####################################################
 #                                                  #
@@ -194,6 +206,7 @@ alarm_control_panel:
 ####################################################
 
 #https://home-assistant.io/docs/configuration/splitting_configuration/
+automation: !include automations.yaml
 frontend:
   themes: !include_dir_merge_named themes
   extra_module_url:

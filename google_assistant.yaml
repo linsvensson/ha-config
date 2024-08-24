@@ -60,12 +60,6 @@ switch.chester:
 switch.stereo:
   name: stereo
   room: lounge
-switch.coffee:
-  name: coffee
-  room: kitchen
-switch.dishwasher:
-  name: dishwasher
-  room: kitchen
 switch.kitchen_motion_sensor:
   name: kitchen motion
   room: kitchen

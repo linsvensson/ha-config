@@ -35,61 +35,7 @@ cards:
               - entity: sensor.docker_home_assistant
                 attribute: status
                 name: Status
-              - type: custom:bar-card
-                width: 55%
-                height: 2em
-                decimal: 0
-                unit_of_measurement: '%'
-                positions: &bar_card_positions
-                  icon: outside
-                  indicator: 'off'
-                  name: outside
-                severity: &bar_card_severity
-                  - color: '#6d2525'
-                    from: 90
-                    to: 999
-                entity_row: true
-                entities:
-
-                  - entity: sensor.docker_home_assistant
-                    attribute: cpu_percentage
-                    name: Processor
-                    icon: mdi:chip
-                  - entity: sensor.docker_home_assistant
-                    attribute: memory_percentage
-                    name: Memory
-                    icon: mdi:memory
-                    
-              - type: section
-              - entity: switch.docker_deconz
-              - entity: sensor.docker_deconz
-                attribute: status
-                name: Status
-              - type: custom:bar-card
-                width: 55%
-                height: 2em
-                decimal: 0
-                unit_of_measurement: '%'
-                positions:
-                  icon: outside
-                  indicator: 'off'
-                  name: outside
-                severity:
-                  - color: '#6d2525'
-                    from: 90
-                    to: 999
-                entity_row: true
-                entities:
-
-                  - entity: sensor.docker_deconz
-                    attribute: cpu_percentage
-                    name: Processor
-                    icon: mdi:chip
-                  - entity: sensor.docker_deconz
-                    attribute: memory_percentage
-                    name: Memory
-                    icon: mdi:memory
-                    
+               
               - type: section
               - entity: switch.docker_bajzwave
               - entity: sensor.docker_bajzwave
@@ -110,7 +56,6 @@ cards:
                     to: 999
                 entity_row: true
                 entities:
-
                   - entity: sensor.docker_bajzwave
                     attribute: cpu_percentage
                     name: Processor
@@ -139,7 +84,6 @@ cards:
                     to: 999
                 entity_row: true
                 entities:
-
                   - entity: sensor.docker_node_red
                     attribute: cpu_percentage
                     name: Processor
@@ -168,12 +112,39 @@ cards:
                     to: 999
                 entity_row: true
                 entities:
-
                   - entity: sensor.docker_mqtt
                     attribute: cpu_percentage
                     name: Processor
                     icon: mdi:chip
                   - entity: sensor.docker_mqtt
+                    attribute: memory_percentage
+                    name: Memory
+                    icon: mdi:memory
+              - type: section
+              - entity: switch.docker_minecraft
+              - entity: sensor.docker_minecraft
+                attribute: status
+                name: Status
+              - type: custom:bar-card
+                width: 55%
+                height: 2em
+                decimal: 0
+                unit_of_measurement: '%'
+                positions:
+                  icon: outside
+                  indicator: 'off'
+                  name: outside
+                severity:
+                  - color: '#6d2525'
+                    from: 90
+                    to: 999
+                entity_row: true
+                entities:
+                  - entity: sensor.docker_minecraft
+                    attribute: cpu_percentage
+                    name: Processor
+                    icon: mdi:chip
+                  - entity: sensor.docker_minecraft
                     attribute: memory_percentage
                     name: Memory
                     icon: mdi:memory
@@ -197,12 +168,39 @@ cards:
                     to: 999
                 entity_row: true
                 entities:
-
                   - entity: sensor.docker_valheim_server
                     attribute: cpu_percentage
                     name: Processor
                     icon: mdi:chip
                   - entity: sensor.docker_valheim_server
+                    attribute: memory_percentage
+                    name: Memory
+                    icon: mdi:memory
+              - type: section
+              - entity: switch.docker_vrising_server
+              - entity: sensor.docker_vrising_server
+                attribute: status
+                name: Status
+              - type: custom:bar-card
+                width: 55%
+                height: 2em
+                decimal: 0
+                unit_of_measurement: '%'
+                positions:
+                  icon: outside
+                  indicator: 'off'
+                  name: outside
+                severity:
+                  - color: '#6d2525'
+                    from: 90
+                    to: 999
+                entity_row: true
+                entities:
+                  - entity: sensor.docker_vrising_server
+                    attribute: cpu_percentage
+                    name: Processor
+                    icon: mdi:chip
+                  - entity: sensor.docker_vrising_server
                     attribute: memory_percentage
                     name: Memory
                     icon: mdi:memory

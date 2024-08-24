@@ -10,6 +10,7 @@ card:
   show_state: '[[show_state]]'
   show_label: '[[show_label]]'
   show_icon: true
+  icon: '[[icon]]'
   show_name: '[[show_name]]'
   name: '[[name]]'
   state: '[[state]]'
@@ -17,27 +18,32 @@ card:
     [[[ return states['[[entity]]'].state ]]]
   tap_action: '[[tap_action]]'
   hold_action: '[[hold_action]]'
-  style: |
-    ha-card {
-      padding-top: 15px !important;
-      padding-bottom: 15px !important;
-      background-color: rgba(0, 0, 0, 0);
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-    }
-    ha-icon {
-      width: 60% !important;
-    }
-    img {
-      width: 100%;
-    }
-    #img-cell {
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 50px;
-      height: 50px !important;
-      width: 50px !important;
-    }
-    #state {
-      padding-top: 5px;
-    }
+  styles:
+    state:
+      - font-size: 14px
+      - padding-top: 3px
+  card_mod:
+    style: |
+      ha-card {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        background-color: rgba(0, 0, 0, 0);
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+      }
+      ha-icon {
+        width: 60% !important;
+      }
+      img {
+        width: 100%;
+      }
+      #img-cell {
+        background-color: rgba(0, 0, 0, 0);
+        border-radius: 50px;
+        height: 50px !important;
+        width: 50px !important;
+      }
+      #state {
+        padding-top: 5px;
+      }

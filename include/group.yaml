@@ -2,10 +2,10 @@ group:
   default_lights:
     - group.window_lights
     - light.disco_time
+    - light.groovy_time
     - group.bedroom_cozy
-    - light.floalt
     - switch.showcase_light
-    - switch.couch_time
+    - switch.tv_lights
     
   bedroom_lights:
      - group.bedroom_cozy
@@ -14,14 +14,15 @@ group:
      
   all_lights:
      - light.hallway
-     - light.floalt
-     - light.kitchen_table
+     - light.the_sun
+     - light.dining
      - group.bedroom_lights
      - light.kitchen_spotlight
      - group.window_lights
-     - switch.couch_time
+     - switch.tv_lights
      - light.lounge_spotlight
      - light.disco_time
+     - light.groovy_time
      - switch.showcase_light
   
   bedroom_cozy:
@@ -30,23 +31,23 @@ group:
     - light.old_greg
     
   bedroom_balls:
-    - light.ball_pink
-    - light.ball_green
-    - light.ball_yellow
+    - light.pink_ball
+    - light.green_ball
+    - light.yellow_ball
     
   window_lights:
-    - switch.lounge_window_left
-    - switch.lounge_window
+    - switch.lounge_window_0_switch
+    - switch.lounge_window_1
     
   home_presence:
     - person.carolin
     - person.will
     
   tv:
-    - switch.chester
-    - switch.stereo
+    - media_player.maxwell
+    - switch.stereo_switch
     
   windows:
-    - binary_sensor.kitchen_window
-    - binary_sensor.lounge_window
+    - binary_sensor.lounge_window_left
+    - binary_sensor.lounge_window_right
     - binary_sensor.bedroom_window

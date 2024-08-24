@@ -1,35 +1,20 @@
 script:
   
-  timed_hallway:
-    alias: Turn on light and set timer
-    sequence:
-    - service: script.turn_off
-      data:
-        entity_id: script.hallway_off
-    - service: light.turn_on
-      data:
-        entity_id: light.hallway
-  hallway_off:
-    alias: Turn off light after 2 minutes
-    sequence:
-    - delay:
-        minutes: 2
-    - service: light.turn_off
-      data:
-        entity_id: light.hallway
   ac_power:
     sequence:
     - service: remote.send_command
       target:
-        entity_id: remote.broadlink
+       device_id:
+         - a30ce9b81afb41e87542840bc8ab439f
       data:
-        device: broadlink
-        command: b64:JgBQAAABI5UVEhQSFBIUEhURFREVERU1FDcVNRQ3EzcSORI4EjgUExMTExMTNxI4FDcTExMTEjkSOBI4EhQTExMVETgSOBIWEQAFAQABKUoSAA0FAAAAAAAAAAA=
+        device: ac
+        command: power
   ac_swing:
     sequence:
     - service: remote.send_command
       target:
-        entity_id: remote.broadlink
+       device_id:
+         - a30ce9b81afb41e87542840bc8ab439f
       data:
         device: broadlink
         command: b64:JgBYAAABJJMSFBIUEhQSFBIUEhQTExM4EjgSORI4EjgTOBI4EjgTExMUEjgSFBIUEjgTExMTEzgSOBMUETkSOBIUEjgTOBIUEgAE/wABKkkSAAxPAAEoSxIADQU=
@@ -37,10 +22,41 @@ script:
     sequence:
     - service: remote.send_command
       target:
-        entity_id: remote.broadlink
+       device_id:
+         - a30ce9b81afb41e87542840bc8ab439f
       data:
         device: broadlink
         command: b64:JgBMABUSFBIUEhQSFBIVERURFTYUNhU2FDYVNhQ2FTYVNRUSFDYUNhUSFDYVNhQSFBIUNhUSFBIUNhURFREVNhQ2FRIUAAUAAAErSRQADQUAAAAAAAAAAAAAAAA=
+
+  stereo_mute:
+    sequence:
+    - service: remote.send_command
+      target:
+        device_id:
+          - a30ce9b81afb41e87542840bc8ab439f
+      data:
+          device: stereo
+          command: mute
+  stereo_volume_down:
+   sequence:
+   - service: remote.send_command
+     target:
+       device_id:
+         - a30ce9b81afb41e87542840bc8ab439f
+     data:
+       device: stereo
+       command: volume down
+  stereo_volume_up:
+   sequence:
+   - service: remote.send_command
+     target:
+       device_id:
+         - a30ce9b81afb41e87542840bc8ab439f
+     data:
+       device: stereo
+       command: volume up
+  
+
   store_litterbox_left_last_cleaned:
     alias: Left litterbox last cleaned
     sequence:
@@ -81,6 +97,14 @@ script:
         entity_id: input_datetime.fountain_filter_last_changed
         time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
         date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
+  store_cooker_hood_filter_last_cleaned:
+    alias: Cooker hood filter last cleaned
+    sequence:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.cooker_hood_filter_last_cleaned
+        time: '{{ (as_timestamp(now()) | timestamp_custom("%H:%M:%S", true)) }}'
+        date: '{{ (as_timestamp(now()) | timestamp_custom("%Y-%m-%d", true)) }}'
   current_electricity_price:
     alias: Current electricity price
     sequence:
@@ -109,11 +133,18 @@ script:
       data:
         entity_id: switch.scene_electricity_today
     mode: single
-  dinner_ready:
-    alias: Tell Will that dinner is ready
+  goodnight:
+    alias: Sleepy time
     sequence:
     - service: nodered.trigger
       data:
-        entity_id: switch.scene_dinner_ready
+        entity_id: switch.scene_goodnight
+    mode: single
+  windows_open:
+    alias: Are any windows open?
+    sequence:
+    - service: nodered.trigger
+      data:
+        entity_id: switch.scene_windows_open
     mode: single
   

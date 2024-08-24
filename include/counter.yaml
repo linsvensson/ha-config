@@ -6,3 +6,10 @@ counter:
   coffee_counter_daily:
     name: Cups brewed today
     icon: mdi:coffee
+    
+  dodo_food_counter:
+    name: Total times dodo's food has been opened
+    icon: mdi:cat
+  dodo_food_counter_daily:
+    name: Times dodo's food has been open today
+    icon: mdi:cat

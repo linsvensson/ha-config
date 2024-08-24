@@ -2,6 +2,13 @@ decluttering_templates:
   !include lovelace/decluttering_templates/decluttering_templates.yaml
   
 button_card_templates: !include lovelace/decluttering_templates/button_card_templates.yaml
+
+wallpanel:
+  enabled: false
+  hide_toolbar: true
+  hide_sidebar: true
+  fullscreen: true
+  idle_time: 0
   
 title: Home
 background: var(--background)

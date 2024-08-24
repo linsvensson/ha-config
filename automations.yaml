@@ -1,0 +1,34 @@
+- id: '1723813790215'
+  alias: Google Shopping List
+  description: Sync Google Shopping List with Anylist
+  trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      domain: todo
+      service: add_item
+    variables:
+      item_name: '{{ trigger.event.data.service_data.item }}'
+      list_name: '{{state_attr((trigger.event.data.service_data.entity_id)[0],''friendly_name'')}}'
+      list_entity_id: '{{ (trigger.event.data.service_data.entity_id)[0] }}'
+      origin: '{{ trigger.event.origin }}'
+  condition:
+  - condition: template
+    value_template: '{{ list_entity_id == ''todo.google_keep_shopping'' }}'
+  action:
+  - data:
+      message: '''{{item_name}}'' was just added to the ''{{list_name}}'' list.'
+    action: notify.persistent_notification
+  - data:
+      item: '{{item_name}}'
+    target:
+      entity_id: todo.shopping
+    action: todo.add_item
+  - target:
+      entity_id: todo.google_keep_shopping_list
+    data:
+      status: completed
+      item: '{{item_name}}'
+    action: todo.update_item
+  mode: parallel
+  max: 50

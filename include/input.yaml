@@ -8,6 +8,9 @@ input_boolean:
   motion_hallway:
     initial: on
     
+  moisturizer:
+    initial: off 
+    
 input_datetime:
   litterbox_left_last_cleaned:
     name: Left litterbox cleaned
@@ -34,24 +37,12 @@ input_datetime:
     has_date: true
     has_time: true
     
-input_number:
-  paddington_brightness_slider:
-    name: Brightness
-    icon: 'mdi:brightness-percent'
-    initial: 20
-    min: 0
-    max: 100
-    step: 1
-    unit_of_measurement: "%"
+  cooker_hood_filter_last_cleaned:
+    name: Cooker hood filter cleaned
+    has_date: true
+    has_time: true
     
 input_select:
-  dishwasher_status:
-    options:
-      - idle
-      - running
-      - off
-    initial: idle
-    
   coffee_status:
     options:
       - idle

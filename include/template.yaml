@@ -43,34 +43,41 @@ template:
             {% elif time <= 23 %} Good evening {{'\U0001F974'}}
             {% else %} Good evening {{'\U0001F974'}}
             {% endif %}
-            </b>
-          active: >
-            <b>
-            <font color="#E50000">
-            {% if states('sensor.fountain_days') | float >= 7 %} <b>{{'\u26A0'}} The water fountain needs cleaning</b>
-            {% endif %}<br>
-            {% if states('sensor.bathroom_litterbox_days') | float >= 28 %} <b>{{'\u26A0'}} The bathroom litterbox needs cleaning</b>
-            {% endif %}<br>
-            {% if states('sensor.left_litterbox_days') | float >= 14 %} <b>{{'\u26A0'}} The left litterbox needs cleaning</b>
-            {% endif %}<br>
-            {% if states('sensor.right_litterbox_days') | float >= 14 %} <b>{{'\u26A0'}} The right litterbox needs cleaning</b>
-            {% endif %}
+            </br>
+            </br>
+            <font color='#6a7377'>
+            {% set dodo_count = states('counter.dodo_food_counter_daily') %}
+            {{'\U0001F963'}}{{'\U0001F408\U0000200D\U00002B1B'}} {{dodo_count}}
             </font>
             </b>
           weather: >
-            {% set temperature = states('sensor.dark_sky_temperature') %}
-            {% set apparent = states('sensor.dark_sky_apparent_temperature') | round %}
-            {% set precip = states('sensor.dark_sky_precip_probability') | round %}
-            {% if not is_state('sensor.dark_sky_temperature', 'unknown') %}
-              {% if temperature | float(default=0) <= 0.0 %}
-                Feels like {{ apparent }}° with {{ precip }}% chance of snow {{'\u2744\uFE0F'}}
-              {% elif temperature | float(default=0) > 0.0 %}
-                Feels like {{ apparent}}° with {{ precip }}% chance of rain {{ '\u2614\uFE0F' if precip > 30 }}
-              {% endif %}
-            {% else %}
-              Couldn't fetch weather information...
+            <b>
+            {% set temperature = state_attr('weather.smhi_home', 'temperature') | round(0) %}
+            {% set forecasts = state_attr('weather.smhi_home', 'forecast') %}
+            {% if not is_state('weather.smhi_home', 'unknown') %}
+            {% if temperature | float(0) <= 0.0 %}
+                Feels like {{ temperature }}°
+            {% elif temperature | float(0) > 0.0 %}
+                Feels like {{ temperature}}°
             {% endif %}
-
+            {% else %}
+                Couldn't fetch weather information...
+            {% endif %}
+            </b>
+          wifi: >
+            <img src="/local/wifiqr.png" alt="wifi" height=80% width=80%/>
+            
+      - unique_id: updates_available
+        icon: mdi:arrow-up-bold-circle-outline
+        state: > 
+          {% set ha_installed = states('sensor.installed_version_2') %}
+          {% set ha_version_latest = states('sensor.latest_available_version_2') %}
+          {% set hacs = states('sensor.hacs') | int(0) %}
+          {% if ha_version_latest != 'unavailable' and is_number(hacs) and '.' in ha_version_latest and hacs != 'unavailable' -%}
+             {% set ha_count = 1 if ha_installed != ha_version_latest else 0 %}
+             {{int(ha_count + hacs)}}
+          {% endif %}
+        
       - unique_id: hass_version
         state: >
           {{ 'Latest' if states('sensor.installed_version_2') ==
@@ -80,29 +87,29 @@ template:
             Installed {{ states('sensor.installed_version_2') }}
           icon: mdi:home-assistant
           
-      - unique_id: fullykiosk_storage
-        icon: mdi:sd
-        unit_of_measurement: '%'
-        state: >
-          {% set FreeSpace = states('sensor.lenovo_tab_m10_internal_storage_free_space') | float(default=0) %}
-          {% set TotalSpace = states('sensor.lenovo_tab_m10_internal_storage_total_space') | float(default=0) %}
-          {% if not (FreeSpace == 0.0 or TotalSpace == 0.0) %}
-            {{ 100 - (FreeSpace / TotalSpace * 100) | int(default=0) }}
-          {% endif %}
-        attributes:
-          friendly_name: Storage
-  
-      - unique_id: fullykiosk_memory
-        icon: mdi:memory
-        unit_of_measurement: '%'
-        state: >
-          {% set FreeMemory = states('sensor.lenovo_tab_m10_ram_free_memory') | float(default=0) %}
-          {% set TotalMemory = states('sensor.lenovo_tab_m10_ram_total_memory') | float(default=0) %}
-          {% if not (FreeMemory == 0.0 or TotalMemory == 0.0) %}
-            {{ 100 - (FreeMemory / TotalMemory * 100) | int(default=0) }}
-          {% endif %}
-        attributes:
-          friendly_name: Memory
+      #- unique_id: fullykiosk_storage
+      #  icon: mdi:sd
+      #  unit_of_measurement: '%'
+      #  state: >
+      #    {% set FreeSpace = states('sensor.lenovo_tab_m10_internal_storage_free_space') | float(default=0) %}
+      #    {% set TotalSpace = states('sensor.lenovo_tab_m10_internal_storage_total_space') | float(default=0) %}
+      #    {% if not (FreeSpace == 0.0 or TotalSpace == 0.0) %}
+      #      {{ 100 - (FreeSpace / TotalSpace * 100) | int(default=0) }}
+      #    {% endif %}
+      #  attributes:
+      #    friendly_name: Storage
+  #
+      #- unique_id: fullykiosk_memory
+      #  icon: mdi:memory
+      #  unit_of_measurement: '%'
+      #  state: >
+      #    {% set FreeMemory = states('sensor.lenovo_tab_m10_ram_free_memory') | float(default=0) %}
+      #    {% set TotalMemory = states('sensor.lenovo_tab_m10_ram_total_memory') | float(default=0) %}
+      #    {% if not (FreeMemory == 0.0 or TotalMemory == 0.0) %}
+      #      {{ 100 - (FreeMemory / TotalMemory * 100) | int(default=0) }}
+      #    {% endif %}
+      #  attributes:
+      #    friendly_name: Memory
           
       - unique_id: washer
         icon: mdi:washing-machine
@@ -129,20 +136,51 @@ template:
       - unique_id: ac_power
         icon: mdi:fan
         state: >
+          {% set status = states('switch.ac') %}
           {% set power = states('sensor.ac_electric_consumed_w') | int(0) %}
-          {{ 'on' if power > 2 else 'off' }}
+          {% if status == 'on' %}
+            {{ 'running' if power > 2 else 'idle' }}
+          {% else %}
+            off
+          {% endif %}
           
       - unique_id: lounge_window
         icon: >
-          {% if is_state('binary_sensor.binary_sensor.lounge_window_0', 'on')
-             or is_state('binary_sensor.lounge_window_1', 'on') %}
+          {% if is_state('binary_sensor.lounge_window_right', 'on') %}
              mdi:window-open
           {% else %}
              mdi:window-closed
           {% endif %}
         state: >
-          {% if is_state('binary_sensor.lounge_window_0', 'on')
-             or is_state('binary_sensor.lounge_window_1', 'on') %}
+          {% if is_state('binary_sensor.lounge_window_right', 'on') %}
+             open
+          {% else %}
+             closed
+          {% endif %}
+          
+      - unique_id: kitchen_window
+        icon: >
+          {% if is_state('binary_sensor.lounge_window_left', 'on') %}
+             mdi:window-open
+          {% else %}
+             mdi:window-closed
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.lounge_window_left', 'on') %}
+             open
+          {% else %}
+             closed
+          {% endif %}
+          
+      - unique_id: bedroom_window
+        icon: >
+          {% if is_state('binary_sensor.bedroomn_window', 'on') %}
+             mdi:window-open
+          {% else %}
+             mdi:window-closed
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.bedroomn_window', 'on') %}
              open
           {% else %}
              closed
@@ -192,3 +230,92 @@ template:
           {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.litterbox_bathroom_last_cleaned')) %}
           {{ (time_diff // (60 * 60 * 24)) | int(0) }}
           
+      - unique_id: cooker_hood_filter_days
+        state: >
+          {% set time_diff = as_timestamp(now()) - as_timestamp(states('input_datetime.cooker_hood_filter_last_cleaned')) %}
+          {{ (time_diff // (60 * 60 * 24)) | int(0) }}
+          
+      - unique_id: bathroom_temp
+        icon: mdi:thermometer
+        attributes:
+          humidity: "{{ states('sensor.humidity_44') | int(0) }}"
+        state: "{{ states('sensor.temperature_45') | int(0) }}"
+
+      - unique_id: weekday_text
+        state: >
+          {% if strptime(states('sensor.date'), '%Y-%m-%d').day != null %}
+          {% set days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+          {{ days[now().weekday()] }}
+          {% endif %}
+
+      - unique_id: month_text
+        state: >
+         {% if strptime(states('sensor.date'), '%Y-%m-%d').day != null %}
+         {% set months = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'] %}
+              {{ strptime(states('sensor.date'), '%Y-%m-%d').day }} {{ months[now().month-1] }}
+         {% endif %}
+          
+      - unique_id: temp_inside
+        icon: mdi:home-thermometer
+        state: >
+          {{ ((float(states('sensor.lounge_temp_temperature')) +
+            float(states('sensor.bedroom_temp_temperature'))) / 2) | round(1)
+          }}
+          
+      - unique_id: front_door
+        icon: >
+          {% if is_state('binary_sensor.front_door', 'on')
+             or is_state('binary_sensor.front_door', 'on') %}
+             mdi:door-open
+          {% else %}
+             mdi:door-closed
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.front_door', 'on')
+             or is_state('binary_sensor.front_door', 'on') %}
+             open
+          {% else %}
+             closed
+          {% endif %}
+         
+      - unique_id: hallway_motion
+        icon: >
+          {% if is_state('binary_sensor.hallway_motion', 'on')
+             or is_state('binary_sensor.hallway_motion', 'on') %}
+             mdi:motion-sensor
+          {% else %}
+             mdi:sleep
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.hallway_motion', 'on')
+             or is_state('binary_sensor.hallway_motion', 'on') %}
+             on
+          {% else %}
+             off
+          {% endif %}
+          
+      - unique_id: kitchen_motion
+        icon: >
+          {% if is_state('binary_sensor.kitchen_motion', 'on')
+             or is_state('binary_sensor.kitchen_motion', 'on') %}
+             mdi:motion-sensor
+          {% else %}
+             mdi:sleep
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.kitchen_motion', 'on')
+             or is_state('binary_sensor.kitchen_motion', 'on') %}
+             on
+          {% else %}
+             off
+          {% endif %}
+          
+      - unique_id: greenely_has_prices
+        state: >
+          {% set current_day = state_attr('sensor.greenely_prices', 'current_day') %}
+          {% if current_day != [] %}
+             true
+          {% else %}
+             false
+          {% endif %}

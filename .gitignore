@@ -35,3 +35,4 @@ configuration.yaml.save
 home-assistant-3a3c9-e673699b18f4.json
 pyozw.sqlite
 ssl
+backups/

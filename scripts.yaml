@@ -1,0 +1,8 @@
+check_if_its_cheap_today:
+  alias: Check if it's cheap today
+  sequence:
+  - service: nodered.trigger
+    data:
+      entity_id: switch.scene_electricity_today
+  mode: single
+  icon: mdi:cash

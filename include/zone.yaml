@@ -28,9 +28,3 @@ zone:
     longitude: !secret zone_citygross_longitude
     radius: 35
     icon: mdi:basket
-  
-  - name: Cinema
-    latitude: !secret zone_cinema_latitude
-    longitude: !secret zone_cinema_longitude
-    radius: 10
-    icon: mdi:theater

@@ -1,0 +1,63 @@
+
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: "Sebastian"
+    content:
+      type: vertical-stack
+      cards:
+        - type: entities
+          state_color: true
+          entities:
+            - entity: switch.sebastian_power
+              icon: mdi:power
+              name: Power
+              secondary_info: last-changed
+            - type: section
+              label: Programs
+            - entity: switch.sebastian_program_machinecare
+              icon: mdi:silverware-clean
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "Make Sebastian sparkle!"
+              name: Machine Care
+            - entity: switch.sebastian_program_auto1
+              icon: mdi:numeric-1-circle
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "lightly soiled dishes"
+              name: Auto1
+            - entity: switch.sebastian_program_auto2
+              icon: mdi:numeric-2-circle
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "normally soiled dishes"
+              name: Auto2
+            - entity: switch.sebastian_program_intensiv70
+              icon: mdi:pot-mix
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "highly soiled dishes"
+              name: Intensive
+            - type: section
+              label: Quick
+            - entity: switch.sebastian_program_quick45
+              icon: mdi:timer
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "lightly soiled dishes"
+              name: 45°
+            - entity: switch.sebastian_program_quick65
+              icon: mdi:timer
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "normally soiled dishes"
+              name: 65°
+            - type: section
+              label: Delayed start
+            - entity: switch.scene_sebastian_start
+              icon: mdi:numeric-2-circle
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "normally soiled dishes"
+              name: Auto2
+            - entity: switch.scene_sebastian_intense_program
+              icon: mdi:pot-mix
+              type: "custom:secondaryinfo-entity-row"
+              secondary_info: "highly soiled dishes"
+              name: Intensive
+                

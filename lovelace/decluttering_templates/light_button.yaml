@@ -1,0 +1,28 @@
+default:
+  - show_label: false
+  - show_state: false
+  - show_name: false
+  - show_last_changed: true
+  - color: auto
+  - hold_action:
+      action: more-info
+card:
+  type: custom:button-card
+  entity: '[[entity]]'
+  show_state: '[[show_state]]'
+  show_label: '[[show_label]]'
+  icon: '[[icon]]'
+  show_last_changed: '[[show_last_changed]]'
+  show_name: '[[show_name]]'
+  name: '[[name]]'
+  hold_action: '[[hold_action]]'
+  color_type: card
+  color: '[[color]]'
+  styles:
+    name: 
+      - font-size: 14px
+    label: 
+      - font-size: 12px
+    card:
+      - height: 100px
+      - margin-top: 10px
